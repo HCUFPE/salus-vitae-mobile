@@ -1,0 +1,7 @@
+{
+  "name": "salus-vitae-mobile",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
