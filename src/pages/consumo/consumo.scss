@@ -1,24 +1,22 @@
 page-consumo {
-
-}
-
-.vertical-align-content > * {
-    display: flex!important;
-    align-content: center!important;
-    align-items: center!important;
-}
-
-.flexcontainer {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: row;
-    flex-direction: row;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-justify-content: center;
-    justify-content: center;
- }
-
-.fab {
-    zoom: 3;
+    .vertical-align-content > * {
+        display: flex!important;
+        align-content: center!important;
+        align-items: center!important;
+    }
+    
+    .flexcontainer {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+     }
+    
+    .fab {
+        zoom: 3;
+    }
 }

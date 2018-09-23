@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Detalhes do Paciente</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <h1 text-center>Paciente</h1>
+
+  <ion-segment [(ngModel)]="dados">
+    <ion-segment-button value="prontuario">
+      Prescrição
+    </ion-segment-button>
+    <ion-segment-button value="pessoal">
+      Dados Pessoais
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="dados">
+    <div *ngSwitchCase="'prontuario'">
+      <p><b>Ala:</b> Ala1</p>
+      <p><b>Data da admissão:</b> 19 de Junho de 2018</p>
+      <p><b>Peso da admissão:</b> 70 kg</p>
+      <p><b>Data da alta:</b> Ainda em atendimento</p>
+      <p><b>Leito:</b> 30</p>
+      <p><b>Data da prescrição:</b> 20 de Junho de 2018</p>
+      <p><b>Médico da prescrição:</b> Doutor</p>
+      <p><b>Medicamentos:</b> Tylenol 30mg, Dorflex 10mg</p>
+    </div>
+    <div *ngSwitchCase="'pessoal'">
+      <p><b>Data de nasciemento:</b> 28 de Janeiro de 1996</p>
+      <p><b>Sexo:</b> Masculino</p>
+      <p><b>RG:</b> 9876543</p>
+      <p><b>CPF:</b> 12345678901></p>
+      <p><b>Nome da mãe:</b> Mãe</p>
+      <p><b>Nome do pai:</b> Pai></p>
+      <p><b>Alergias:</b> Lactose</p>
+    </div>
+  </div>
+
+  <ion-fab right bottom>
+      <button ion-fab><ion-icon name="arrow-dropright"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

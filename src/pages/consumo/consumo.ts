@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @IonicPage()
@@ -9,8 +9,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 })
 export class ConsumoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    public toastCtrl: ToastController, private barcodeScanner: BarcodeScanner) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController, private barcodeScanner: BarcodeScanner) {
   }
 
   startScanner() {
@@ -22,25 +22,22 @@ export class ConsumoPage {
 
     this.barcodeScanner.scan(barcodeConfig).then(barcodeData => {
       if (!barcodeData.cancelled) {
-        this.toastCtrl.create({
-          message: barcodeData.format + ': ' + barcodeData.text,
-          showCloseButton: true,
-          closeButtonText: 'Fechar',
-          dismissOnPageChange: true
-        }).present();
-      } else {
-        this.navCtrl.setRoot('ConsumoPage').then(() => {
-          this.toastCtrl.create({
-            message: 'Cancelled',
-            showCloseButton: true,
-            closeButtonText: 'Fechar',
-            dismissOnPageChange: true
-          }).present();
+        let loading = this.loadingCtrl.create({
+          content: 'Obtendo informações do prontuário...',
+          duration: 3000
         });
+
+        loading.present();
+
+        loading.onDidDismiss(() => {
+          this.navCtrl.push('DetalhesPacientePage');
+        })
+      } else {
+        this.navCtrl.setRoot('ConsumoPage');
       }
     }).catch(err => {
       this.toastCtrl.create({
-        message: 'Error: ' + err,
+        message: 'Erro: ' + err,
         showCloseButton: true,
         closeButtonText: 'Fechar',
         dismissOnPageChange: true

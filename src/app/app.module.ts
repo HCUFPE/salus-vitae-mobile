@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { ConsumoPageModule } from '../pages/consumo/consumo.module';
 import { AprazamentoPageModule } from '../pages/aprazamento/aprazamento.module';
+import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-paciente.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AprazamentoPageModule } from '../pages/aprazamento/aprazamento.module';
     IonicModule.forRoot(MyApp),
     TabsPageModule,
     ConsumoPageModule,
-    AprazamentoPageModule
+    AprazamentoPageModule,
+    DetalhesPacientePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
