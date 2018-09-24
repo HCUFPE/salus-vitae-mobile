@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 
 import { Prontuario } from '../../models/prontuario';
 import { Prescricao } from '../../models/prescricao';
 import { Alergia } from '../../models/alergia';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 @IonicPage()
 @Component({
@@ -48,9 +48,9 @@ export class DetalhesPacientePage {
       resultDisplayDuration: 0
     };
 
-    this.barcodeScanner.scan(barcodeConfig).then(barcodeData => {
+    this.barcodeScanner.scan(barcodeConfig).then((barcodeData: BarcodeScanResult) => {
       if (!barcodeData.cancelled) {
-        let loading = this.loadingCtrl.create({
+        let loading: Loading = this.loadingCtrl.create({
           content: 'Obtendo informações do remédio...',
           duration: 3000
         });
@@ -60,8 +60,6 @@ export class DetalhesPacientePage {
         loading.onDidDismiss(() => {
           this.navCtrl.push('DetalhesMedicamentoPage');
         })
-      } else {
-        this.navCtrl.setRoot('PacientePage');
       }
     }).catch(err => {
       this.toastCtrl.create({

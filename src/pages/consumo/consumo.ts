@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController, Loading } from 'ionic-angular';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 
 import { ApiProvider } from '../../providers/api/api';
 import { Prontuario } from '../../models/prontuario';
@@ -23,7 +23,7 @@ export class ConsumoPage {
       resultDisplayDuration: 0
     };
 
-    this.barcodeScanner.scan(barcodeConfig).then(barcodeData => {
+    this.barcodeScanner.scan(barcodeConfig).then((barcodeData: BarcodeScanResult) => {
       if (!barcodeData.cancelled) {
         let loading: Loading = this.loadingCtrl.create({
           content: 'Obtendo informações do prontuário...',
