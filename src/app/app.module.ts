@@ -11,6 +11,8 @@ import { ConsumoPageModule } from '../pages/consumo/consumo.module';
 import { AprazamentoPageModule } from '../pages/aprazamento/aprazamento.module';
 import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-paciente.module';
 import { ApiProvider } from '../providers/api/api';
+import { LoginPageModule } from '../pages/login/login.module';
+import { DetalhesMedicamentoPageModule } from '../pages/detalhes-medicamento/detalhes-medicamento.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ApiProvider } from '../providers/api/api';
     TabsPageModule,
     ConsumoPageModule,
     AprazamentoPageModule,
-    DetalhesPacientePageModule
+    DetalhesPacientePageModule,
+    LoginPageModule,
+    DetalhesMedicamentoPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
