@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController, Loading } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
+import { ApiProvider } from '../../providers/api/api';
+import { Prontuario } from '../../models/prontuario';
 
 @IonicPage()
 @Component({
@@ -10,7 +13,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 export class ConsumoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController, private barcodeScanner: BarcodeScanner) {
+    public loadingCtrl: LoadingController, private barcodeScanner: BarcodeScanner, private api: ApiProvider) {
   }
 
   startScanner() {
@@ -22,16 +25,26 @@ export class ConsumoPage {
 
     this.barcodeScanner.scan(barcodeConfig).then(barcodeData => {
       if (!barcodeData.cancelled) {
-        let loading = this.loadingCtrl.create({
+        let loading: Loading = this.loadingCtrl.create({
           content: 'Obtendo informações do prontuário...',
-          duration: 3000
+          dismissOnPageChange: true
         });
 
         loading.present();
 
-        loading.onDidDismiss(() => {
-          this.navCtrl.push('DetalhesPacientePage');
-        })
+        this.api.getProntuario('5ba6d532882c741ea8953986').subscribe(
+          (res: Prontuario) => {
+            this.navCtrl.push('DetalhesPacientePage', { prontuario: res });
+          }, () => {
+            this.toastCtrl.create({
+              message: 'Erro: Não foi possível obter o prontuário.',
+              showCloseButton: true,
+              closeButtonText: 'Fechar',
+              dismissOnPageChange: true
+            }).present();
+            loading.dismiss();
+          }
+        );
       } else {
         this.navCtrl.setRoot('ConsumoPage');
       }

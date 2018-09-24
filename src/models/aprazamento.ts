@@ -11,5 +11,5 @@ export interface Aprazamento {
     isConsumido: boolean;
     intervalo: string;
     isCancelado: string;
-    justificativa: string;
+    justificativa?: string;
 }

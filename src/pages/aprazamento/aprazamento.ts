@@ -27,7 +27,6 @@ export class AprazamentoPage {
     this.api.getAprazamentos().subscribe(
         (res: Aprazamento[]) => {
           this.aprazamentos = res;
-
           loading.dismiss();
         },
         () => {
@@ -37,7 +36,6 @@ export class AprazamentoPage {
             closeButtonText: 'Fechar',
             dismissOnPageChange: true
           }).present();
-      
           loading.dismiss();
         }
     );

@@ -9,7 +9,7 @@
 
 <ion-content padding>
 
-  <h1 text-center>Paciente</h1>
+  <h1 text-center>{{ prontuario.idPaciente.nome }}</h1>
 
   <ion-segment [(ngModel)]="dados">
     <ion-segment-button value="prontuario">
@@ -22,23 +22,23 @@
 
   <div [ngSwitch]="dados">
     <div *ngSwitchCase="'prontuario'">
-      <p><b>Ala:</b> Ala1</p>
-      <p><b>Data da admissão:</b> 19 de Junho de 2018</p>
-      <p><b>Peso da admissão:</b> 70 kg</p>
-      <p><b>Data da alta:</b> Ainda em atendimento</p>
-      <p><b>Leito:</b> 30</p>
-      <p><b>Data da prescrição:</b> 20 de Junho de 2018</p>
-      <p><b>Médico da prescrição:</b> Doutor</p>
-      <p><b>Medicamentos:</b> Tylenol 30mg, Dorflex 10mg</p>
+      <p><b>Ala:</b> {{ prontuario.ala }}</p>
+      <p><b>Data da admissão:</b> {{ prontuario.dataAdmissao | date:'dd/MM/yyyy hh:mm' }}</p>
+      <p><b>Peso da admissão:</b> {{ prontuario.pesoAdmissao }}</p>
+      <p><b>Data da alta:</b> {{ prontuario.dataAlta ? (prontuario.dataAlta | date:'dd/MM/yyyy hh:mm') : 'Ainda em atendimento' }}</p>
+      <p><b>Leito:</b> {{ prontuario.leito }}</p>
+      <p><b>Data da prescrição:</b> {{ getUltimaPrescricao().dataPrescricao | date:'dd/MM/yyyy hh:mm' }}</p>
+      <p><b>Médico da prescrição:</b> {{ getUltimaPrescricao().medicoId }}</p>
+      <p><b>Medicamentos:</b> {{ getMedicamentos() }}</p>
     </div>
     <div *ngSwitchCase="'pessoal'">
-      <p><b>Data de nasciemento:</b> 28 de Janeiro de 1996</p>
-      <p><b>Sexo:</b> Masculino</p>
-      <p><b>RG:</b> 9876543</p>
-      <p><b>CPF:</b> 12345678901></p>
-      <p><b>Nome da mãe:</b> Mãe</p>
-      <p><b>Nome do pai:</b> Pai></p>
-      <p><b>Alergias:</b> Lactose</p>
+      <p><b>Data de nascimento:</b> {{ prontuario.idPaciente.dataNascimento | date:'dd/MM/yyyy hh:mm' }}</p>
+      <p><b>Sexo:</b> {{ prontuario.idPaciente.sexo == 'M' ? 'Masculino' : ( prontuario.idPaciente.sexo == 'F' ? 'Feminino' : 'Outros') }}</p>
+      <p><b>RG:</b> {{ prontuario.idPaciente.numeroRg }}</p>
+      <p><b>CPF:</b> {{ prontuario.idPaciente.numeroCpf }}</p>
+      <p><b>Nome da mãe:</b> {{ prontuario.idPaciente.nomeMae }}</p>
+      <p><b>Nome do pai:</b> {{ prontuario.idPaciente.nomePai }}</p>
+      <p><b>Alergias:</b> {{ getAlergias() }}</p>
     </div>
   </div>
 
