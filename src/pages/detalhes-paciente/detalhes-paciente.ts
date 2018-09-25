@@ -5,6 +5,8 @@ import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner
 import { Prontuario } from '../../models/prontuario';
 import { Prescricao } from '../../models/prescricao';
 import { Alergia } from '../../models/alergia';
+import { ApiProvider } from '../../providers/api/api';
+import { Medicamento } from '../../models/medicamento';
 
 @IonicPage()
 @Component({
@@ -17,7 +19,7 @@ export class DetalhesPacientePage {
   prontuario: Prontuario;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController, private barcodeScanner: BarcodeScanner) {
+    public loadingCtrl: LoadingController, private barcodeScanner: BarcodeScanner, private api: ApiProvider) {
     this.prontuario = this.navParams.get('prontuario');
   }
 
@@ -52,14 +54,24 @@ export class DetalhesPacientePage {
       if (!barcodeData.cancelled) {
         let loading: Loading = this.loadingCtrl.create({
           content: 'Obtendo informações do remédio...',
-          duration: 3000
+          dismissOnPageChange: true
         });
 
         loading.present();
 
-        loading.onDidDismiss(() => {
-          this.navCtrl.push('DetalhesMedicamentoPage');
-        })
+        this.api.getMedicamento('5ba5804558104a0015c81f4f').subscribe(
+          (res: Medicamento) => {
+            this.navCtrl.push('DetalhesMedicamentoPage', { medicamento: res });
+          }, () => {
+            this.toastCtrl.create({
+              message: 'Erro: Não foi possível obter o medicamento.',
+              showCloseButton: true,
+              closeButtonText: 'Fechar',
+              dismissOnPageChange: true
+            }).present();
+            loading.dismiss();
+          }
+        );
       }
     }).catch(err => {
       this.toastCtrl.create({

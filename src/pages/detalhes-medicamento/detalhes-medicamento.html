@@ -8,25 +8,12 @@
 
 <ion-content padding>
 
-  <h1 text-center>Remédio</h1>
+  <h1 text-center>{{ medicamento.nome }}</h1>
 
-  <ion-segment [(ngModel)]="dados">
-    <ion-segment-button value="descricao">
-      Descrição
-    </ion-segment-button>
-    <ion-segment-button value="aprazamento">
-      Aprazamento
-    </ion-segment-button>
-  </ion-segment>
-
-  <div [ngSwitch]="dados">
-    <div *ngSwitchCase="'descricao'">
-      <p>Teste 1</p>
-    </div>
-    <div *ngSwitchCase="'aprazamento'">
-      <p>Teste 2</p>
-    </div>
-  </div>
+  <p><b>Dosagem:</b> {{ medicamento.dosagem }}</p>
+  <p><b>Data de fabricação:</b> {{ medicamento.dataFabricacao | date:'dd/MM/yyyy hh:mm' }}</p>
+  <p><b>Data de validade:</b> {{ medicamento.dataValidade | date:'dd/MM/yyyy hh:mm' }}</p>
+  <p><b>Aprazamento:</b> Aprazamento</p>
 
   <ion-fab right bottom>
     <ion-row>

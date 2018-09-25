@@ -17,4 +17,8 @@ export class ApiProvider {
     return this.http.get(this.apiUrl + '/prontuarios/' + id);
   }
 
+  getMedicamento(id) {
+    return this.http.get(this.apiUrl + '/medicamentos/' + id);
+  }
+
 }
