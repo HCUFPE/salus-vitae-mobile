@@ -2,6 +2,6 @@ export interface Medicamento {
     _id: string;
     nome: string;
     dosagem: string;
-    dataFabricacao: string;
+    dataFabricacao: Date;
     dataValidade: Date;
 }

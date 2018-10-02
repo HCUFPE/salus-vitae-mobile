@@ -26,7 +26,12 @@ export class AprazamentoPage {
 
     this.api.getAprazamentos().subscribe(
         (res: Aprazamento[]) => {
-          this.aprazamentos = res;
+          this.aprazamentos = res.sort((a: Aprazamento, b: Aprazamento) => {
+              if (new Date(a.horario) < new Date(b.horario)) return -1;
+              if (new Date(a.horario) > new Date(b.horario)) return 1;
+              return 0;
+          });
+
           loading.dismiss();
         },
         () => {

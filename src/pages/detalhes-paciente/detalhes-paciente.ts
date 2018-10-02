@@ -29,7 +29,7 @@ export class DetalhesPacientePage {
     }
 
     return this.prontuario.prescricoes.sort((a: Prescricao, b: Prescricao) => {
-      if (a.dataPrescricao > b.dataPrescricao)return -1;
+      if (a.dataPrescricao > b.dataPrescricao) return -1;
       if (a.dataPrescricao < b.dataPrescricao) return 1;
       return 0;
     })[0];
