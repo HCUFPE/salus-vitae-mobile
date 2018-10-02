@@ -9,18 +9,14 @@ import { IonicPage, NavController, NavParams, Toast, ToastController } from 'ion
 export class LoginPage {
 
   toast: Toast;
-  credentials = { name: '', password: '' };
+  credentials = { username: '', password: '' };
+  lastUsername: string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController) {
   }
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a8d5c901499e6e4d1d3cf2e990ca203193c205d8
   login() {
-    if (this.credentials.name.toLocaleLowerCase() === 'enfermeira' && this.credentials.password === '123') {
+    if (this.credentials.username.toLocaleLowerCase() === 'enfermeira' && this.credentials.password === '123456') {
       this.navCtrl.setRoot('TabsPage');
     } else {
       if (this.toast !== undefined) {
@@ -36,5 +32,23 @@ export class LoginPage {
     }
   }
 
+  onKeyUp(value: string) {
+    let regExp: RegExp = /^[A-Za-z]+$/;
+
+    if (value.length > this.lastUsername.length) {
+      if (!regExp.test(value)) {
+        value = value.slice(0, this.lastUsername.length - value.length);
+        this.credentials.username = value;
+        this.lastUsername = value;
+      } else {
+        this.credentials.username = value;
+        this.lastUsername = value;
+      }
+    }
+  }
+
+  showUser(username) {
+    console.log(username);
+  }
 
 }

@@ -8,50 +8,29 @@
     <ion-col></ion-col>
   </ion-row>
   
-<<<<<<< HEAD
-  <form (ngSubmit)="login()" #loginForm="ngForm">
-   
-    <ion-item id="login-input4">
-
-      <ion-input type="text" #name="ngModel" placeholder="User" id="username" required pattern="[A-Za-z]{1,}" name="username" [(ngModel)]="credentials.name"></ion-input>
-    </ion-item>
-    
-      <ion-label *ngIf="name.errors?.pattern && name.touched" style="color: red; margin-left: 16px;" color="danger">
-          Insere os valores alfabeticos 
-      </ion-label> 
-  
-    <br>
-    <ion-item id="login-input5">
-      <ion-input type="password"  #pass="ngModel" maxlength="6" minlength="3" #pass="ngModel" placeholder="*****" id="pass" required name="pass" [(ngModel)]="credentials.password"></ion-input>
-    </ion-item>
-
-      <span *ngIf="credentials?.password?.length < 3 && pass?.touched">
-          <ion-label style="color: red; margin-left: 16px;" color="danger">
-            Senha deverá ter até 6 caracteres 
-        </ion-label>
-      </span>
-    
-      <br>
-    <button type="submit" ion-button color="positive" block large icon-right style="font-weight:600;font-size:25px;" [disabled]="!loginForm.form.valid">
-      Entrar
-      <ion-icon name="log-in"></ion-icon>
-    </button>
   <div class="login-box">
     <form (ngSubmit)="login()" #loginForm="ngForm">
       <ion-row>
         <ion-col>
           <ion-list inset>
             <ion-item>
-              <ion-input type="text" placeholder="Usuário" name="username" [(ngModel)]="credentials.name" required></ion-input>
+              <ion-input id="username" name="username" type="text" placeholder="Usuário" (keyup)="onKeyUp($event.target.value)" onpaste="return false;"
+               autocapitalize="off" #username="ngModel" [(ngModel)]="credentials.username" required minlength="6" maxlength="15"></ion-input>
             </ion-item>
+            <span *ngIf="username.touched && username.errors?.minlength" class="login-error">
+              Username deve possuir no mínimo {{ username.errors.minlength.requiredLength }} caracteres
+            </span>
+            <br>
             <ion-item>
-              <ion-input type="password" placeholder="*****" name="password" [(ngModel)]="credentials.password" required></ion-input>
+              <ion-input id="password" name="password" type="password" placeholder="*****" onpaste="return false;"
+               #password="ngModel" [(ngModel)]="credentials.password" required minlength="6" maxlength="15"></ion-input>
             </ion-item>
+            <span *ngIf="password.touched && password.errors?.minlength" class="login-error">
+              Senha deve possuir no mínimo {{ password.errors.minlength.requiredLength }} caracteres
+            </span>
           </ion-list>
         </ion-col>
       </ion-row>
->>>>>>> a8d5c901499e6e4d1d3cf2e990ca203193c205d8
-
       <ion-row>
         <ion-col class="login-col">
           <button ion-button class="submit-btn" full round type="submit" [disabled]="!loginForm.form.valid">Login</button>
