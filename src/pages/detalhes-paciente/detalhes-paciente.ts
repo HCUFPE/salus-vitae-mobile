@@ -61,7 +61,7 @@ export class DetalhesPacientePage {
 
         this.api.getMedicamento('5ba5804558104a0015c81f4f').subscribe(
           (res: Medicamento) => {
-            this.navCtrl.push('DetalhesMedicamentoPage', { medicamento: res });
+            this.navCtrl.push('DetalhesMedicamentoPage', { prontuario: this.prontuario, medicamento: res });
           }, () => {
             this.toastCtrl.create({
               message: 'Erro: Não foi possível obter o medicamento.',

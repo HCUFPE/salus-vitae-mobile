@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Network } from '@ionic-native/network';
 
-//import { TabsPage } from '../pages/tabs/tabs';
+import { Observable } from 'rxjs';
+
 import { LoginPage } from '../pages/login/login';
+import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
 
 @Component({
   templateUrl: 'app.html'
@@ -12,7 +15,8 @@ import { LoginPage } from '../pages/login/login';
 export class MyApp {
   rootPage:any = LoginPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
+    private consumoStorage: ConsumoStorageProvider, private network: Network, private toastCtrl: ToastController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -24,6 +28,25 @@ export class MyApp {
 
       splashScreen.hide();
     });
+
+    let isSync: boolean = false;
+
+    Observable.interval(120000).subscribe(() => {
+      if (this.isConnected() && !isSync) {
+        isSync = true;
+
+        this.consumoStorage.synchronize()
+        .then(() => isSync = false)
+        .catch(() => isSync = false);
+      }
+    });
   }
+
+  isConnected(): boolean {
+    let connType: string = this.network.type;
+
+    return connType && connType !== 'unknown' && connType !== 'none';
+  }
+
 }
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, LoadingController, Loading } from 'ionic-angular';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 
 import { ApiProvider } from '../../providers/api/api';
@@ -12,8 +12,8 @@ import { Prontuario } from '../../models/prontuario';
 })
 export class ConsumoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController, private barcodeScanner: BarcodeScanner, private api: ApiProvider) {
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public loadingCtrl: LoadingController,
+    private barcodeScanner: BarcodeScanner, private api: ApiProvider) {
   }
 
   startScanner() {

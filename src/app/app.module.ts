@@ -4,6 +4,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { IonicStorageModule } from '@ionic/storage';
+import { Network } from '@ionic-native/network';
 
 import { MyApp } from './app.component';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
@@ -13,6 +15,7 @@ import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-
 import { ApiProvider } from '../providers/api/api';
 import { LoginPageModule } from '../pages/login/login.module';
 import { DetalhesMedicamentoPageModule } from '../pages/detalhes-medicamento/detalhes-medicamento.module';
+import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,7 @@ import { DetalhesMedicamentoPageModule } from '../pages/detalhes-medicamento/det
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     TabsPageModule,
     ConsumoPageModule,
     AprazamentoPageModule,
@@ -37,7 +41,9 @@ import { DetalhesMedicamentoPageModule } from '../pages/detalhes-medicamento/det
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ApiProvider
+    Network,
+    ApiProvider,
+    ConsumoStorageProvider
   ]
 })
 export class AppModule {}
