@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Toast, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Toast, ToastController} from 'ionic-angular';
+import { Network } from '@ionic-native/network';
 
 @IonicPage()
 @Component({
@@ -11,6 +12,7 @@ export class LoginPage {
   toast: Toast;
   credentials = { username: '', password: '' };
   lastUsername: string = '';
+  status: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController) {
   }

@@ -16,7 +16,7 @@ export class MyApp {
   rootPage:any = LoginPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-    private consumoStorage: ConsumoStorageProvider, private network: Network, private toastCtrl: ToastController) {
+    private consumoStorage: ConsumoStorageProvider, private network: Network, public toastCtrl: ToastController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -25,7 +25,6 @@ export class MyApp {
       } else {
         statusBar.styleDefault();
       }
-
       splashScreen.hide();
     });
 

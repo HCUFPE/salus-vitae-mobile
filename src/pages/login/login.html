@@ -3,11 +3,11 @@
   <ion-row class="logo-row">
     <ion-col></ion-col>
     <ion-col width-67>
-      <img src="../../assets/imgs/logo.png"/>
+      <img class="logo" src="../../assets/imgs/logo-st.png"/>
     </ion-col>
     <ion-col></ion-col>
   </ion-row>
-  
+
   <div class="login-box">
     <form (ngSubmit)="login()" #loginForm="ngForm">
       <ion-row>
@@ -33,7 +33,7 @@
       </ion-row>
       <ion-row>
         <ion-col class="login-col">
-          <button ion-button class="submit-btn" full round type="submit" [disabled]="!loginForm.form.valid">Login</button>
+          <button ion-button class="submit-btn" full round type="submit" [disabled]="!loginForm.form.valid">Entrar </button>
         </ion-col>
       </ion-row>
     </form>
