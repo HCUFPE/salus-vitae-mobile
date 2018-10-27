@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Detalhes do Paciente</ion-title>
+    <ion-title>Administração</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -12,38 +12,41 @@
   <h1 text-center>{{ prontuario.idPaciente.nome }}</h1>
 
   <ion-segment [(ngModel)]="dados">
-    <ion-segment-button value="prontuario">
-      Prontuário
+    <ion-segment-button value="aprazamentos">
+      Aprazamentos
     </ion-segment-button>
-    <ion-segment-button value="pessoal">
-      Dados Pessoais
+    <ion-segment-button value="detalhes">
+      Detalhes
     </ion-segment-button>
   </ion-segment>
 
   <div [ngSwitch]="dados">
-    <div *ngSwitchCase="'prontuario'">
+    <div *ngSwitchCase="'aprazamentos'">
+        <ion-list>
+          <ion-item *ngFor="let value of aprazamentos">
+            <ion-note item-end>{{ value.aprazamento.horario | date:'hh:mm' }}</ion-note>
+            <ion-toggle [(ngModel)]="value.checked"></ion-toggle>
+            <ion-label>
+              <ion-label>{{ value.aprazamento.medicamento.nome }}</ion-label>
+              <p>{{ value.aprazamento.medicamento.dosagem }} - {{ value.aprazamento.intervalo }}h/{{ value.aprazamento.intervalo }}h</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+    </div>
+    <div *ngSwitchCase="'detalhes'">
+      <p><b>Data de nascimento:</b> {{ prontuario.idPaciente.dataNascimento | date:'dd/MM/yyyy hh:mm' }}</p>
+      <p><b>Sexo:</b> {{ prontuario.idPaciente.sexo == 'M' ? 'Masculino' : ( prontuario.idPaciente.sexo == 'F' ?
+        'Feminino' : 'Outros') }}</p>
+      <p><b>Leito:</b> {{ prontuario.leito }}</p>
       <p><b>Ala:</b> {{ prontuario.ala }}</p>
       <p><b>Data da admissão:</b> {{ prontuario.dataAdmissao | date:'dd/MM/yyyy hh:mm' }}</p>
-      <p><b>Peso da admissão:</b> {{ prontuario.pesoAdmissao }}</p>
-      <p><b>Data da alta:</b> {{ prontuario.dataAlta ? (prontuario.dataAlta | date:'dd/MM/yyyy hh:mm') : 'Ainda em atendimento' }}</p>
-      <p><b>Leito:</b> {{ prontuario.leito }}</p>
-      <p><b>Data da prescrição:</b> {{ getUltimaPrescricao().dataPrescricao | date:'dd/MM/yyyy hh:mm' }}</p>
-      <p><b>Médico da prescrição:</b> {{ getUltimaPrescricao().medicoId }}</p>
-      <p><b>Medicamentos:</b> {{ getMedicamentos() }}</p>
-    </div>
-    <div *ngSwitchCase="'pessoal'">
-      <p><b>Data de nascimento:</b> {{ prontuario.idPaciente.dataNascimento | date:'dd/MM/yyyy hh:mm' }}</p>
-      <p><b>Sexo:</b> {{ prontuario.idPaciente.sexo == 'M' ? 'Masculino' : ( prontuario.idPaciente.sexo == 'F' ? 'Feminino' : 'Outros') }}</p>
-      <p><b>RG:</b> {{ prontuario.idPaciente.numeroRg }}</p>
-      <p><b>CPF:</b> {{ prontuario.idPaciente.numeroCpf }}</p>
-      <p><b>Nome da mãe:</b> {{ prontuario.idPaciente.nomeMae }}</p>
-      <p><b>Nome do pai:</b> {{ prontuario.idPaciente.nomePai }}</p>
-      <p><b>Alergias:</b> {{ getAlergias() }}</p>
     </div>
   </div>
 
   <ion-fab right bottom>
-      <button ion-fab (click)="startMedicamento()"><ion-icon name="arrow-dropright"></ion-icon></button>
+    <button ion-fab color="secondary" (click)="confirm()" [disabled]="getAprazamentosChecked().length === 0">
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
   </ion-fab>
 
 </ion-content>

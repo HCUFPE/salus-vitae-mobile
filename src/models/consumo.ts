@@ -1,8 +1,8 @@
+import { Aprazamento } from './aprazamento';
 import { Prontuario } from './prontuario';
-import { Medicamento } from "./medicamento";
 
 export interface Consumo {
     prontuario: Prontuario;
-    medicamento: Medicamento;
+    aprazamento: Aprazamento;
     horario: Date;
 }

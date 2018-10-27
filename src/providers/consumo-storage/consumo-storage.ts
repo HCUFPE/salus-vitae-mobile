@@ -25,24 +25,19 @@ export class ConsumoStorageProvider {
 
     return await this.storage.set(this.key, consumos);
   }
- 
-  async remove(consumo: Consumo) {
-    let consumos: Consumo[] = await this.getAll();
-    let index;
 
-    if (!consumos || !consumo || !consumo.horario || !consumo.medicamento || !consumo.prontuario) {
-      return Promise.reject(new Error());
+  async saveAll(consumos: Consumo[]) {
+    let consumosSaved: Consumo[] = await this.getAll();
+
+    if (consumosSaved) {
+      consumosSaved.push(...consumos);
+    } else if (consumos) {
+      consumosSaved = consumos;
+    } else {
+      consumosSaved = [];
     }
 
-    index = consumos.findIndex(c => 
-      new Date(c.horario).getTime() === new Date(consumo.horario).getTime() &&
-      c.medicamento._id === consumo.medicamento._id && c.prontuario._id == consumo.prontuario._id);
-
-    if (index > -1) {
-      consumos.splice(index, 1);
-    }
-    
-    return await this.storage.set(this.key, consumos);
+    return await this.storage.set(this.key, consumosSaved);
   }
  
   async getAll() {
@@ -54,54 +49,31 @@ export class ConsumoStorageProvider {
   }
 
   async synchronize() {
-    let consumos: Consumo[] = await this.getAll();
+    let administrados: Consumo[] = await this.getAll();
+
+    if (!administrados) {
+      this.toastCtrl.create({
+        duration: 3000,
+        message: `Não há medicamentos administrados.`
+      }).present();
+
+      return Promise.reject('Não há medicamentos administrados.');
+    }
 
     this.toastCtrl.create({
       duration: 3000,
-      message: `Sincronia iniciada: ${consumos.length}`
+      message: `Sincronia iniciada: ${administrados.length}`
     }).present();
 
     return new Promise((resolve, reject) => {
-      this.api.postConsumos(consumos).subscribe((resposta: Resposta) => {
+      this.api.postConsumos(administrados).subscribe((resposta: Resposta) => {
         if (resposta && resposta.statusCode === 200) {
-          this.clear().then(() => resolve(consumos));
+          this.clear().then(() => resolve(administrados));
         } else {
           reject(resposta);
         }
       }, (error) => reject(error));
     });
   }
-
-  // async synchronize() {
-  //   let consumos: Consumo[] = await this.getAll();
-
-  //   if (consumos) {
-  //     await this.toastCtrl.create({
-  //       duration: 3000,
-  //       message: `Sincronia iniciada: ${consumos.length}`
-  //     }).present();
-
-  //     for (let index = 0; index < consumos.length; index++) {
-  //       let result: Resposta;
-        
-  //       if ((index + 1) % 2 === 0) {
-  //         result = await this.api.postConsumo(consumos[index]);
-  //       } else {
-  //         result = await this.api.postConsumoOkay(consumos[index]);
-  //       }
-
-  //       if (result && result.statusCode === 200) {
-  //         let remove = await this.remove(consumos[index]);
-          
-  //         if (remove && !(remove instanceof Error)) {
-  //           await this.toastCtrl.create({
-  //             duration: 2000,
-  //             message: `Consumo ${index + 1} sincronizado`
-  //           }).present();
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 
 }

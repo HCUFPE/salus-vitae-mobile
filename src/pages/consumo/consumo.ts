@@ -4,6 +4,8 @@ import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner
 
 import { ApiProvider } from '../../providers/api/api';
 import { Prontuario } from '../../models/prontuario';
+import { Aprazamento } from '../../models/aprazamento';
+import { DetalhesPacientePage } from '../detalhes-paciente/detalhes-paciente';
 
 @IonicPage()
 @Component({
@@ -33,8 +35,29 @@ export class ConsumoPage {
         loading.present();
 
         this.api.getProntuario('5ba6d532882c741ea8953986').subscribe(
-          (res: Prontuario) => {
-            this.navCtrl.push('DetalhesPacientePage', { prontuario: res });
+          (resProntuario: Prontuario) => {
+            loading.setContent('Obtendo informações dos aprazamentos...');
+
+            this.api.getAprazamentos().subscribe(
+              (resAprazamentos: Aprazamento[]) => {
+                resAprazamentos = resAprazamentos.sort((a: Aprazamento, b: Aprazamento) => {
+                  if (new Date(a.horario) < new Date(b.horario)) return -1;
+                  if (new Date(a.horario) > new Date(b.horario)) return 1;
+                  return 0;
+                });
+
+                this.navCtrl.push(DetalhesPacientePage, { prontuario: resProntuario, aprazamentos: resAprazamentos });
+              }, () => {
+                this.toastCtrl.create({
+                  message: 'Erro: Não foi possível obter os aprazamentos.',
+                  showCloseButton: true,
+                  closeButtonText: 'Fechar',
+                  dismissOnPageChange: true
+                }).present();
+
+                loading.dismiss();
+              }
+            );
           }, () => {
             this.toastCtrl.create({
               message: 'Erro: Não foi possível obter o prontuário.',
@@ -42,6 +65,7 @@ export class ConsumoPage {
               closeButtonText: 'Fechar',
               dismissOnPageChange: true
             }).present();
+
             loading.dismiss();
           }
         );

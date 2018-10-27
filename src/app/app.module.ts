@@ -14,7 +14,6 @@ import { AprazamentoPageModule } from '../pages/aprazamento/aprazamento.module';
 import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-paciente.module';
 import { ApiProvider } from '../providers/api/api';
 import { LoginPageModule } from '../pages/login/login.module';
-import { DetalhesMedicamentoPageModule } from '../pages/detalhes-medicamento/detalhes-medicamento.module';
 import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
 
 @NgModule({
@@ -30,8 +29,7 @@ import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-sto
     ConsumoPageModule,
     AprazamentoPageModule,
     DetalhesPacientePageModule,
-    LoginPageModule,
-    DetalhesMedicamentoPageModule
+    LoginPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

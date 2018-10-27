@@ -3,8 +3,8 @@ page-login {
     background: #FFFFFF;
  
     .logo-row {
-      padding-top: 20px;
-    padding-bottom: 32px;
+      padding-top: 50px;
+      padding-bottom: 20px;
     }
  
     .login-box {
@@ -27,12 +27,6 @@ page-login {
       border: 1px solid #ffffff;
       border-bottom: 0px !important;
       box-shadow: none !important;
-    }
-
-    img.logo{
-      max-width: 320%;
-      //margin-bottom: -85%;
-      margin-left: -110%;
     }
  
     .login-col {
