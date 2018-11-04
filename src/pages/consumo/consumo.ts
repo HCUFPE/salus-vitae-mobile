@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, NavController, ToastController, LoadingController, Loading, Platform } from 'ionic-angular';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 
 import { ApiProvider } from '../../providers/api/api';
 import { Prontuario } from '../../models/prontuario';
 import { Aprazamento } from '../../models/aprazamento';
 import { DetalhesPacientePage } from '../detalhes-paciente/detalhes-paciente';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @IonicPage()
 @Component({
@@ -14,7 +15,7 @@ import { DetalhesPacientePage } from '../detalhes-paciente/detalhes-paciente';
 })
 export class ConsumoPage {
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public loadingCtrl: LoadingController,
+  constructor(public platform:Platform,public navCtrl: NavController, public toastCtrl: ToastController, public loadingCtrl: LoadingController,
     private barcodeScanner: BarcodeScanner, private api: ApiProvider) {
   }
 

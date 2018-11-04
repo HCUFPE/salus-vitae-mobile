@@ -15,7 +15,7 @@ import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-
 import { ApiProvider } from '../providers/api/api';
 import { LoginPageModule } from '../pages/login/login.module';
 import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
-
+import { DeviceDetectorModule } from 'ngx-device-detector';
 @NgModule({
   declarations: [
     MyApp
@@ -29,7 +29,8 @@ import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-sto
     ConsumoPageModule,
     AprazamentoPageModule,
     DetalhesPacientePageModule,
-    LoginPageModule
+    LoginPageModule,
+    DeviceDetectorModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

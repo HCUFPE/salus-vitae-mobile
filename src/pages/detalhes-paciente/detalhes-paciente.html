@@ -12,6 +12,9 @@
   <h1 text-center>{{ prontuario.idPaciente.nome }}</h1>
 
   <ion-segment [(ngModel)]="dados">
+    <ion-segment-button value="historico">
+      Histórico
+    </ion-segment-button>
     <ion-segment-button value="aprazamentos">
       Aprazamentos
     </ion-segment-button>
@@ -20,18 +23,19 @@
     </ion-segment-button>
   </ion-segment>
 
-  <div [ngSwitch]="dados">
+ <div [ngSwitch]="dados">
     <div *ngSwitchCase="'aprazamentos'">
-        <ion-list>
-          <ion-item *ngFor="let value of aprazamentos">
-            <ion-note item-end>{{ value.aprazamento.horario | date:'hh:mm' }}</ion-note>
-            <ion-toggle [(ngModel)]="value.checked"></ion-toggle>
-            <ion-label>
-              <ion-label>{{ value.aprazamento.medicamento.nome }}</ion-label>
-              <p>{{ value.aprazamento.medicamento.dosagem }} - {{ value.aprazamento.intervalo }}h/{{ value.aprazamento.intervalo }}h</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+      <ion-list>
+        <ion-item *ngFor="let value of aprazamentos">
+          <ion-note item-end>{{ value.aprazamento.horario | date:'hh:mm' }}</ion-note>
+          <ion-toggle [(ngModel)]="value.checked" (ionChange)="toggleSwitch(value.checked)"></ion-toggle>
+          <ion-label>
+            <ion-label>{{ value.aprazamento.medicamento.nome }}</ion-label>
+            <p>{{ value.aprazamento.medicamento.dosagem }} - {{ value.aprazamento.intervalo }}h/{{
+              value.aprazamento.intervalo }}h</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
     </div>
     <div *ngSwitchCase="'detalhes'">
       <p><b>Data de nascimento:</b> {{ prontuario.idPaciente.dataNascimento | date:'dd/MM/yyyy hh:mm' }}</p>
@@ -41,8 +45,27 @@
       <p><b>Ala:</b> {{ prontuario.ala }}</p>
       <p><b>Data da admissão:</b> {{ prontuario.dataAdmissao | date:'dd/MM/yyyy hh:mm' }}</p>
     </div>
-  </div>
+    <div *ngSwitchCase="'historico'">
+      <ion-list>
+        <ion-item *ngFor="let value of historicos">
+            <ion-note item-end></ion-note>
+            <ion-label>
+                <ion-label></ion-label>
+                <p id="mobile"><strong>{{ value.mobile }}</strong></p>
+                <p>{{ value.version }}</p>
+                <p>Data Consumo: <span>{{ value.dtRegistrado | date:'dd/MM/yyyy hh:mm' }}</span></p>
+            </ion-label>
+              <!-- 
+              <ion-label>{{ value.historico.medicamento.nome }}</ion-label>
+              <p><strong>{{ value.historico.aprazamento.isConsumido}}</strong></p>
+              <p>{{ value.historico.medicamento.dosagem }} - {{ value.historico.aprazamento.intervalo }}h/{{
+                value.historico.aprazamento.intervalo }}h</p>
+            -->
+        </ion-item>
 
+      </ion-list>
+    </div>
+  </div>
   <ion-fab right bottom>
     <button ion-fab color="secondary" (click)="confirm()" [disabled]="getAprazamentosChecked().length === 0">
       <ion-icon name="checkmark"></ion-icon>

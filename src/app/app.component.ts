@@ -5,10 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Network } from '@ionic-native/network';
 
 import { Observable } from 'rxjs';
-
 import { LoginPage } from '../pages/login/login';
 import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
-
 @Component({
   templateUrl: 'app.html'
 })
@@ -25,7 +23,6 @@ export class MyApp {
       } else {
         statusBar.styleDefault();
       }
-      
       splashScreen.hide();
     });
 
