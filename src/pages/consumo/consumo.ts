@@ -6,7 +6,6 @@ import { ApiProvider } from '../../providers/api/api';
 import { Prontuario } from '../../models/prontuario';
 import { Aprazamento } from '../../models/aprazamento';
 import { DetalhesPacientePage } from '../detalhes-paciente/detalhes-paciente';
-import { DeviceDetectorService } from 'ngx-device-detector';
 
 @IonicPage()
 @Component({
