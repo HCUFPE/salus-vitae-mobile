@@ -60,7 +60,7 @@ export class DetalhesPacientePage {
     this.loadingCtrl.create({
       content: 'Confirmando administração...',
       dismissOnPageChange: true,
-      duration:4000
+      duration:2000
     }).present();
 
     if (this.prontuario && this.getAprazamentosChecked().length > 0) {
@@ -75,9 +75,9 @@ export class DetalhesPacientePage {
           this.api.postConsumos(consumos).subscribe((res: Resposta) => {
         if (res.statusCode == 200) {
           this.showToastConsumo('Medicamento administrado com sucesso!', true);
+          this.getAprazamentosChecked().forEach(a=>this.historicos.push(history));
         } else {
           this.salvarConsumos(consumos);
-          this.getAprazamentosChecked().forEach(a=>this.historicos.push(history));
         }
       }, () => {
         this.salvarConsumos(consumos);
@@ -100,8 +100,7 @@ export class DetalhesPacientePage {
       duration: 1000,
       cssClass: isSuccess ? 'btn-confirm' : 'btn-cancel'
     }).present();
-    window.history.forward();
-    //this.navCtrl.pop();
+    this.navCtrl.pop();
   }
 
 }

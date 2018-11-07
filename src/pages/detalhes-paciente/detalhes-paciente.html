@@ -1,7 +1,7 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Administração</ion-title>
+  <ion-navbar color="primary">
+    <ion-title id="title">Administração</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -10,20 +10,17 @@
 <ion-content padding>
 
   <h1 text-center>{{ prontuario.idPaciente.nome }}</h1>
-
-  <ion-segment [(ngModel)]="dados">
-    <ion-segment-button value="historico">
-      Histórico
-    </ion-segment-button>
-    <ion-segment-button value="aprazamentos">
-      Aprazamentos
-    </ion-segment-button>
-    <ion-segment-button value="detalhes">
-      Detalhes
-    </ion-segment-button>
-  </ion-segment>
-
- <div [ngSwitch]="dados">
+  <div padding>
+    <ion-segment id="segment" color="primary" [(ngModel)]="dados">
+      <ion-segment-button value="aprazamentos">
+        Aprazamentos
+      </ion-segment-button>
+      <ion-segment-button value="detalhes">
+        Detalhes
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  <div [ngSwitch]="dados">
     <div *ngSwitchCase="'aprazamentos'">
       <ion-list>
         <ion-item *ngFor="let value of aprazamentos">
@@ -44,26 +41,6 @@
       <p><b>Leito:</b> {{ prontuario.leito }}</p>
       <p><b>Ala:</b> {{ prontuario.ala }}</p>
       <p><b>Data da admissão:</b> {{ prontuario.dataAdmissao | date:'dd/MM/yyyy hh:mm' }}</p>
-    </div>
-    <div *ngSwitchCase="'historico'">
-      <ion-list>
-        <ion-item *ngFor="let value of historicos">
-            <ion-note item-end></ion-note>
-            <ion-label>
-                <ion-label></ion-label>
-                <p id="mobile"><strong>{{ value.mobile }}</strong></p>
-                <p>{{ value.version }}</p>
-                <p>Data Consumo: <span>{{ value.dtRegistrado | date:'dd/MM/yyyy hh:mm' }}</span></p>
-            </ion-label>
-              <!-- 
-              <ion-label>{{ value.historico.medicamento.nome }}</ion-label>
-              <p><strong>{{ value.historico.aprazamento.isConsumido}}</strong></p>
-              <p>{{ value.historico.medicamento.dosagem }} - {{ value.historico.aprazamento.intervalo }}h/{{
-                value.historico.aprazamento.intervalo }}h</p>
-            -->
-        </ion-item>
-
-      </ion-list>
     </div>
   </div>
   <ion-fab right bottom>
