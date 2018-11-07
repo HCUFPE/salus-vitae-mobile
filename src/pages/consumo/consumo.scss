@@ -1,4 +1,10 @@
 page-consumo {
+
+    h1{
+        text-transform: capitalize;
+        font-size: 2.94em;
+    }
+
     .vertical-align-content > * {
         display: flex!important;
         align-content: center!important;
