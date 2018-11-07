@@ -10,6 +10,7 @@ export class TabsPage {
 
   consumoRoot = 'ConsumoPage'
   aprazamentoRoot = 'AprazamentoPage'
+  historicoRoot = 'HistoricoPage'
   constructor(public navCtrl: NavController) {}
 
 }
