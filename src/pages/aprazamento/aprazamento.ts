@@ -21,28 +21,28 @@ export class AprazamentoPage {
     let loading: Loading = this.loadingCtrl.create({
       content: 'Obtendo informações dos aprazamentos...'
     });
-    
+
     loading.present();
 
     this.api.getAprazamentos().subscribe(
-        (res: Aprazamento[]) => {
-          this.aprazamentos = res.sort((a: Aprazamento, b: Aprazamento) => {
-              if (new Date(a.horario) < new Date(b.horario)) return -1;
-              if (new Date(a.horario) > new Date(b.horario)) return 1;
-              return 0;
-          });
+      (res: Aprazamento[]) => {
+        this.aprazamentos = res.sort((a: Aprazamento, b: Aprazamento) => {
+          if (new Date(a.horario) < new Date(b.horario)) return -1;
+          if (new Date(a.horario) > new Date(b.horario)) return 1;
+          return 0;
+        });
 
-          loading.dismiss();
-        },
-        () => {
-          this.toastCtrl.create({
-            message: 'Erro: Não foi possível obter os aprazamentos.',
-            showCloseButton: true,
-            closeButtonText: 'Fechar',
-            dismissOnPageChange: true
-          }).present();
-          loading.dismiss();
-        }
+        loading.dismiss();
+      },
+      () => {
+        this.toastCtrl.create({
+          message: 'Erro: Não foi possível obter os aprazamentos.',
+          showCloseButton: true,
+          closeButtonText: 'Fechar',
+          dismissOnPageChange: true
+        }).present();
+        loading.dismiss();
+      }
     );
   }
 

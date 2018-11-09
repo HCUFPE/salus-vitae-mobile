@@ -1,9 +1,3 @@
-<!--
-  Generated template for the HistoricoPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar color="primary">
@@ -12,18 +6,17 @@
 
 </ion-header>
 
-
 <ion-content padding>
 
-  <ion-list>
-    <ion-item *ngFor="let value of historicos">
-      <ion-note item-end></ion-note>
-      <ion-label>
-        <ion-label></ion-label>
-        <p id="mobile"><strong>{{ value.mobile }}</strong></p>
-        <p>{{ value.version }}</p>
-        <p>Data Consumo: <span>{{ value.dtRegistrado | date:'dd/MM/yyyy hh:mm' }}</span></p>
-      </ion-label>
+  <h1 text-center>{{ device.manufacturer + ' - ' + device.model }}</h1>
+  <ion-list padding-top>
+    <ion-item text-nowrap *ngFor="let consumo of consumos">
+      <h2>{{ consumo.aprazamento.medicamento.nome + ' - ' +
+        consumo.aprazamento.medicamento.dosagem + ' - ' + consumo.aprazamento.intervalo + 'h/' +
+        consumo.aprazamento.intervalo + 'h' }}</h2>
+      <p><strong>Paciente:</strong> {{ consumo.aprazamento.paciente.nome }}</p>
+      <p><strong>Técnico:</strong> {{ consumo.usuario.name }}</p>
+      <ion-note item-end>{{ consumo.horario | date:'dd/MM/yyyy hh:mm' }}</ion-note>
     </ion-item>
   </ion-list>
 

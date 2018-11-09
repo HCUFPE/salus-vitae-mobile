@@ -15,7 +15,8 @@ import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-
 import { ApiProvider } from '../providers/api/api';
 import { LoginPageModule } from '../pages/login/login.module';
 import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
-import { DeviceDetectorModule } from 'ngx-device-detector';
+import { Device } from '@ionic-native/device';
+
 @NgModule({
   declarations: [
     MyApp
@@ -29,8 +30,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     ConsumoPageModule,
     AprazamentoPageModule,
     DetalhesPacientePageModule,
-    LoginPageModule,
-    DeviceDetectorModule.forRoot()
+    LoginPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,6 +40,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Device,
     Network,
     ApiProvider,
     ConsumoStorageProvider

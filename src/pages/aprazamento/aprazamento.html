@@ -12,7 +12,8 @@
     <ion-item text-nowrap *ngFor="let aprazamento of aprazamentos">
       <h2>{{ aprazamento.paciente.nome }}</h2>
       <p>Leito</p>
-      <p>{{ aprazamento.medicamento.nome + ' - ' + aprazamento.medicamento.dosagem }}</p>
+      <p>{{ aprazamento.medicamento.nome + ' - ' + aprazamento.medicamento.dosagem + ' - ' + aprazamento.intervalo +
+        'h/' + aprazamento.intervalo + 'h' }}</p>
       <ion-note item-end>{{ aprazamento.horario | date:'dd/MM/yyyy hh:mm' }}</ion-note>
     </ion-item>
   </ion-list>
