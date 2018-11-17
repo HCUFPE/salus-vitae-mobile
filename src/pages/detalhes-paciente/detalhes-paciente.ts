@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 
-import { Prontuario } from '../../models/prontuario';
-import { Prescricao } from '../../models/prescricao';
-import { ApiProvider } from '../../providers/api/api';
-import { Consumo } from '../../models/consumo';
+import { SalusVitaeApiProvider } from '../../providers/salusvitae-api/salusvitae-api';
 import { ConsumoStorageProvider } from '../../providers/consumo-storage/consumo-storage';
-import { Resposta } from '../../models/resposta';
-import { Aprazamento } from '../../models/aprazamento';
+import { Prontuario } from '../../models/prontuario.model';
+import { PreOperacao } from '../../models/pre-operacao.model';
+import { Operacao } from '../../models/operacao.model';
+import { Leito } from '../../models/leito.model';
 
 @IonicPage()
 @Component({
@@ -19,76 +18,64 @@ export class DetalhesPacientePage {
 
   dados: string = 'aprazamentos';
   prontuario: Prontuario;
-  aprazamentos: { aprazamento: Aprazamento, checked: boolean }[];
+  leito: Leito;
+  aprazamentos: { aprazamento: PreOperacao, checked: boolean }[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController, private api: ApiProvider, private consumoStorage: ConsumoStorageProvider,
-    private device: Device) {
+    public loadingCtrl: LoadingController, private salusVitaeApi: SalusVitaeApiProvider,
+    private consumoStorage: ConsumoStorageProvider, private device: Device) {
     this.prontuario = this.navParams.get('prontuario');
+    this.leito = this.navParams.get('leito');
     this.aprazamentos = [];
-    this.getAprazamentos();
-  }
-
-  getAprazamentos(){
     this.navParams.get('aprazamentos').forEach(a => this.aprazamentos.push({ aprazamento: a, checked: false }));
-  }
-
-  getUltimaPrescricao() {
-    if (this.prontuario.prescricoes.length == 0) {
-      return null;
-  }
-
-    return this.prontuario.prescricoes.sort((a: Prescricao, b: Prescricao) => {
-      if (a.dataPrescricao > b.dataPrescricao) return -1;
-      if (a.dataPrescricao < b.dataPrescricao) return 1;
-      return 0;
-    })[0];
+    console.log(this.aprazamentos);
   }
 
   getAprazamentosChecked() {
     return this.aprazamentos.filter(a => a.checked);
   }
 
-  toggleSwitch(checked:any) {
+  toggleSwitch(checked: any) {
     console.log(checked);
   }
 
   confirm() {
-    this.loadingCtrl.create({
+    /*this.loadingCtrl.create({
       content: 'Confirmando administração...',
       dismissOnPageChange: true,
-      duration:2000
+      duration: 2000
     }).present();
 
     if (this.prontuario && this.getAprazamentosChecked().length > 0) {
       let horario: Date = new Date();
-      let consumos: Consumo[] = [];
-      
-      this.getAprazamentosChecked()
-          .forEach(a => consumos.push({ prontuario: this.prontuario, aprazamento: a.aprazamento, horario: horario,
-            usuario: { _id: '323232', cpf: null, email: 'test@example.com', name: 'Luiza' },
-            device_uuid: this.device.uuid, device_serial: this.device.serial, device_manufacturer: this.device.manufacturer,
-            device_model: this.device.model, device_platform: this.device.platform, device_version: this.device.version }));
+      let consumos: Operacao[] = this.getAprazamentosChecked()
+        .map<Operacao>(c => {
+          return {
+            cdPreOperacaoAprazamento: c.aprazamento._id, isConsumido: true, dtOperacao: horario,
+            deviceUuid: this.device.uuid, deviceSerial: this.device.serial, deviceManufacturer: this.device.manufacturer,
+            deviceModel: this.device.model, devicePlatform: this.device.platform, deviceVersion: this.device.version
+          }
+        });
 
-          this.api.postConsumos(consumos).subscribe((res: Resposta) => {
-        if (res.statusCode == 200) {
+      this.salusVitaeApi.postAllOperacao(consumos).then((consumos: any[]) => {
+        if (consumos.every(c => c.isConsumido !== undefined)) {
           this.showToastConsumo('Medicamento administrado com sucesso!', true);
         } else {
           this.salvarConsumos(consumos);
         }
-      }, () => {
-        this.salvarConsumos(consumos);
       });
-    }
+    }*/
   }
 
-  salvarConsumos(consumos: Consumo[]) {
-    this.consumoStorage.saveAll(consumos).then(() => {
+  salvarConsumos(consumos: any[]) {
+    /*const consumidos = consumos.filter(c => c.isConsumido !== undefined);
+
+    this.consumoStorage.saveAll(consumidos).then(() => {
       this.showToastConsumo('Não foi possivel enviar, as administrações foram salvas e serão enviadas automaticamente!',
-       false);
+        false);
     }).catch(() => {
       this.showToastConsumo('Não foi possivel enviar e salvar, tente novamente!', false);
-    });
+    });*/
   }
 
   showToastConsumo(message: string, isSuccess: boolean) {

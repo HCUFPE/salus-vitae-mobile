@@ -6,16 +6,17 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
+import { Device } from '@ionic-native/device';
 
 import { MyApp } from './app.component';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { ConsumoPageModule } from '../pages/consumo/consumo.module';
 import { AprazamentoPageModule } from '../pages/aprazamento/aprazamento.module';
 import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-paciente.module';
-import { ApiProvider } from '../providers/api/api';
 import { LoginPageModule } from '../pages/login/login.module';
+import { SalusVitaeApiProvider } from '../providers/salusvitae-api/salusvitae-api';
+import { HCUFPEApiProvider } from '../providers/hcufpe-api/hcufpe-api';
 import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
-import { Device } from '@ionic-native/device';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { Device } from '@ionic-native/device';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Device,
     Network,
-    ApiProvider,
+    SalusVitaeApiProvider,
+    HCUFPEApiProvider,
     ConsumoStorageProvider
   ]
 })

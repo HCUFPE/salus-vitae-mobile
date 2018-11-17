@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { ToastController } from 'ionic-angular';
 
-import { Consumo } from '../../models/consumo';
-import { Resposta } from '../../models/resposta';
-import { ApiProvider } from '../api/api';
+import { SalusVitaeApiProvider } from '../salusvitae-api/salusvitae-api';
+import { Operacao } from '../../models/operacao.model';
 
 @Injectable()
 export class ConsumoStorageProvider {
 
   private key: string = 'consumo';
 
-  constructor(private storage: Storage, private api: ApiProvider, private toastCtrl: ToastController) {
+  constructor(private storage: Storage, private salusVitaeApi: SalusVitaeApiProvider,
+    private toastCtrl: ToastController) {
   }
 
-  async save(consumo: Consumo) {
-    let consumos: Consumo[] = await this.getAll();
+  async save(consumo: Operacao) {
+    let consumos: Operacao[] = await this.getAll();
 
     if (consumos) {
       consumos.push(consumo);
@@ -26,8 +26,8 @@ export class ConsumoStorageProvider {
     return await this.storage.set(this.key, consumos);
   }
 
-  async saveAll(consumos: Consumo[]) {
-    let consumosSaved: Consumo[] = await this.getAll();
+  async saveAll(consumos: Operacao[]) {
+    let consumosSaved: Operacao[] = await this.getAll();
 
     if (consumosSaved) {
       consumosSaved.push(...consumos);
@@ -49,7 +49,7 @@ export class ConsumoStorageProvider {
   }
 
   async synchronize() {
-    let administrados: Consumo[] = await this.getAll();
+    let administrados: Operacao[] = await this.getAll();
 
     if (!administrados) {
       this.toastCtrl.create({
@@ -65,15 +65,11 @@ export class ConsumoStorageProvider {
       message: `Sincronia iniciada: ${administrados.length}`
     }).present();
 
-    return new Promise((resolve, reject) => {
-      this.api.postConsumos(administrados).subscribe((resposta: Resposta) => {
-        if (resposta && resposta.statusCode === 200) {
-          this.clear().then(() => resolve(administrados));
-        } else {
-          reject(resposta);
-        }
+    /*return new Promise((resolve, reject) => {
+      this.salusVitaeApi.postConsumos(administrados).subscribe(() => {
+        this.clear().then(() => resolve(administrados));
       }, (error) => reject(error));
-    });
+    });*/
   }
 
 }

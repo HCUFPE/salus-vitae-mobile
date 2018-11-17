@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController, Loading } from 'ionic-angular';
 
-import { ApiProvider } from '../../providers/api/api';
-import { Aprazamento } from './../../models/aprazamento';
+import { SalusVitaeApiProvider } from '../../providers/salusvitae-api/salusvitae-api';
+import { PreOperacao } from '../../models/pre-operacao.model';
 
 @IonicPage()
 @Component({
@@ -11,10 +11,10 @@ import { Aprazamento } from './../../models/aprazamento';
 })
 export class AprazamentoPage {
 
-  aprazamentos: Aprazamento[];
+  aprazamentos: PreOperacao[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController, private api: ApiProvider) {
+    public loadingCtrl: LoadingController, private salusVitaeApi: SalusVitaeApiProvider) {
   }
 
   ionViewDidEnter() {
@@ -24,26 +24,31 @@ export class AprazamentoPage {
 
     loading.present();
 
-    this.api.getAprazamentos().subscribe(
-      (res: Aprazamento[]) => {
-        this.aprazamentos = res.sort((a: Aprazamento, b: Aprazamento) => {
-          if (new Date(a.horario) < new Date(b.horario)) return -1;
-          if (new Date(a.horario) > new Date(b.horario)) return 1;
-          return 0;
+    this.salusVitaeApi.getPreOperacoes().then((aprazamentos: PreOperacao[]) => {
+      this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos)
+        .then((aprazamentos: PreOperacao[]) => {
+          /*this.aprazamentos = aprazamentos.sort((a: PreOpAprazamentos, b: PreOpAprazamentos) => {
+            if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
+            if (new Date(a.horarioInicial) > new Date(b.horarioInicial)) return 1;
+            return 0;
+          });*/
+          this.aprazamentos = aprazamentos;
+          loading.dismiss();
         });
+    }).catch(() => {
+      this.showErrorToast();
+      loading.dismiss();
+    });
 
-        loading.dismiss();
-      },
-      () => {
-        this.toastCtrl.create({
-          message: 'Erro: Não foi possível obter os aprazamentos.',
-          showCloseButton: true,
-          closeButtonText: 'Fechar',
-          dismissOnPageChange: true
-        }).present();
-        loading.dismiss();
-      }
-    );
+  }
+
+  showErrorToast() {
+    this.toastCtrl.create({
+      message: 'Erro: Não foi possível obter os aprazamentos.',
+      showCloseButton: true,
+      closeButtonText: 'Fechar',
+      dismissOnPageChange: true
+    }).present();
   }
 
 }

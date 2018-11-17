@@ -17,16 +17,16 @@
               <ion-input id="username" name="username" type="text" placeholder="Usuário" (keyup)="onKeyUp($event.target.value)" onpaste="return false;"
                autocapitalize="off" #username="ngModel" [(ngModel)]="credentials.username" required minlength="6" maxlength="15"></ion-input>
             </ion-item>
-            <span *ngIf="username.touched && username.errors?.minlength" class="login-error">
-              Username deve possuir no mínimo {{ username.errors.minlength.requiredLength }} caracteres
+            <span *ngIf="username.touched && username?.errors?.minlength" class="login-error">
+              Username deve possuir no mínimo {{ username?.errors.minlength.requiredLength }} caracteres
             </span>
             <br>
             <ion-item>
               <ion-input id="password" name="password" type="password" placeholder="*****" onpaste="return false;"
                #password="ngModel" [(ngModel)]="credentials.password" required minlength="6" maxlength="15"></ion-input>
             </ion-item>
-            <span *ngIf="password.touched && password.errors?.minlength" class="login-error">
-              Senha deve possuir no mínimo {{ password.errors.minlength.requiredLength }} caracteres
+            <span *ngIf="password.touched && password?.errors?.minlength" class="login-error">
+              Senha deve possuir no mínimo {{ password?.errors.minlength.requiredLength }} caracteres
             </span>
           </ion-list>
         </ion-col>

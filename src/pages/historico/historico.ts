@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, LoadingController, Loading } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 
-import { ApiProvider } from '../../providers/api/api';
-import { Consumo } from '../../models/consumo';
+import { SalusVitaeApiProvider } from '../../providers/salusvitae-api/salusvitae-api';
+import { Operacao } from '../../models/operacao.model';
 
 @IonicPage()
 @Component({
@@ -12,10 +12,10 @@ import { Consumo } from '../../models/consumo';
 })
 export class HistoricoPage {
 
-  consumos: Consumo[];
+  consumos: Operacao[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
-    public loadingCtrl: LoadingController, private api: ApiProvider, public device: Device) {
+    public loadingCtrl: LoadingController, private salusVitaeApi: SalusVitaeApiProvider, public device: Device) {
   }
 
   ionViewDidEnter() {
@@ -25,25 +25,26 @@ export class HistoricoPage {
 
     loading.present();
 
-    this.api.getHistorico(this.device.uuid).subscribe(
-      (res: Consumo[]) => {
-        this.consumos = res.sort((a: Consumo, b: Consumo) => {
-          if (new Date(a.horario) < new Date(b.horario)) return -1;
-          if (new Date(a.horario) > new Date(b.horario)) return 1;
-          return 0;
-        });
+    this.salusVitaeApi.getHistorico("123").then((consumos: Operacao[]) => {
+      this.salusVitaeApi.getOperacoesWithAllDetails(consumos)
+        .then((consumos: Operacao[]) => {
+          this.consumos = consumos.sort((a: Operacao, b: Operacao) => {
+            if (new Date(a.dtOperacao) < new Date(b.dtOperacao)) return -1;
+            if (new Date(a.dtOperacao) > new Date(b.dtOperacao)) return 1;
+            return 0;
+          });
 
-        loading.dismiss();
-      },
-      () => {
-        this.toastCtrl.create({
-          message: 'Erro: Não foi possível obter o histórico.',
-          showCloseButton: true,
-          closeButtonText: 'Fechar',
-          dismissOnPageChange: true
-        }).present();
-        loading.dismiss();
-      }
+          loading.dismiss();
+        });
+    }).catch(() => {
+      this.toastCtrl.create({
+        message: 'Erro: Não foi possível obter o histórico.',
+        showCloseButton: true,
+        closeButtonText: 'Fechar',
+        dismissOnPageChange: true
+      }).present();
+      loading.dismiss();
+    }
     );
   }
 
