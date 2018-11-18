@@ -18,14 +18,12 @@ export class DetalhesPacientePage {
 
   dados: string = 'aprazamentos';
   prontuario: Prontuario;
-  leito: Leito;
   aprazamentos: { aprazamento: PreOperacao, checked: boolean }[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
     public loadingCtrl: LoadingController, private salusVitaeApi: SalusVitaeApiProvider,
     private consumoStorage: ConsumoStorageProvider, private device: Device) {
     this.prontuario = this.navParams.get('prontuario');
-    this.leito = this.navParams.get('leito');
     this.aprazamentos = [];
     this.navParams.get('aprazamentos').forEach(a => this.aprazamentos.push({ aprazamento: a, checked: false }));
   }

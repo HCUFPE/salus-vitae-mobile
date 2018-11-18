@@ -57,8 +57,10 @@ export class SalusVitaeApiProvider {
 
     for (const aprazamento of aprazamentos) {
       if (!prontuarios.has(aprazamento.cdProntuario)) {
+        const prontuario: Prontuario = await this.hcUfpeApi.getProntuario(aprazamento.cdProntuario);
+
         prontuarios.set(aprazamento.cdProntuario,
-          await this.hcUfpeApi.getProntuario(aprazamento.cdProntuario));
+          await this.hcUfpeApi.getProntuarioWithAllDetails(prontuario));
       }
 
       if (!atendimentos.has(aprazamento.cdAtendimento)) {

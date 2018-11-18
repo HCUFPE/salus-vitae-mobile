@@ -8,39 +8,37 @@
 
 <ion-content padding>
 
-  <h1 text-center>{{ prontuario.nomeDoPaciente }}</h1>
-  <h4 text-center>Ala {{ leito.ala.Ala }}</h4>
-  <h4 text-center>Leito {{ leito.leito }}</h4>
-  <div padding-top>
-    <ion-segment id="segment" color="primary" [(ngModel)]="dados">
-      <ion-segment-button value="aprazamentos">
-        Aprazamentos
-      </ion-segment-button>
-      <ion-segment-button value="detalhes">
-        Detalhes
-      </ion-segment-button>
-    </ion-segment>
-  </div>
+  <h3 text-center>{{ prontuario.nomeDoPaciente }}</h3>
+  <h5 text-center>Ala {{ prontuario?.leito?.ala.Ala }}</h5>
+  <h5 text-center>Leito {{ prontuario?.leito.leito }}</h5>
+  <ion-segment id="segment" color="primary" [(ngModel)]="dados">
+    <ion-segment-button value="aprazamentos">
+      Aprazamentos
+    </ion-segment-button>
+    <ion-segment-button value="detalhes">
+      Detalhes
+    </ion-segment-button>
+  </ion-segment>
   <div [ngSwitch]="dados">
     <div *ngSwitchCase="'aprazamentos'">
       <ion-list>
         <ion-item *ngFor="let aprazamento of aprazamentos">
-          <ion-note item-end>{{ aprazamento.aprazamento.horarioInicial | date:'hh:mm' }}</ion-note>
           <ion-toggle [(ngModel)]="aprazamento.checked" (ionChange)="toggleSwitch(aprazamento.checked)"></ion-toggle>
           <ion-label>
-            <ion-label>{{ aprazamento.aprazamento?.itemPrescricao?.descricaoItem }}</ion-label>
+            <p>{{ aprazamento.aprazamento?.itemPrescricao?.descricaoItem }}</p>
             <p>{{ aprazamento.aprazamento?.itemPrescricao?.administracao + ' - ' +
               aprazamento.aprazamento?.itemPrescricao?.frequencia + 'h/' +
               aprazamento.aprazamento?.itemPrescricao?.frequencia + 'h' }}</p>
+            <p><strong>Horário:</strong> {{ aprazamento.aprazamento.horarioInicial | date:'hh:mm' }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
     </div>
     <div *ngSwitchCase="'detalhes'">
-      <p><b>Data de nascimento:</b> {{ prontuario.dataNascimento | date:'dd/MM/yyyy' }}</p>
-      <p><b>Sexo:</b> {{ prontuario.sexo }}</p>
-      <p><b>Nome da Mãe:</b> {{ prontuario.nomeMae }}</p>
-      <p><b>Prontuário:</b> {{ prontuario.prontuario }}</p>
+      <p><strong>Data de nascimento:</strong> {{ prontuario.dataNascimento | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Sexo:</strong> {{ prontuario.sexo }}</p>
+      <p><strong>Nome da Mãe:</strong> {{ prontuario.nomeMae }}</p>
+      <p><strong>Prontuário:</strong> {{ prontuario.prontuario }}</p>
     </div>
   </div>
   <ion-fab right bottom>

@@ -10,14 +10,14 @@
 
   <h1 text-center>{{ device.manufacturer + ' - ' + device.model }}</h1>
   <ion-list padding-top>
-    <ion-item text-nowrap *ngFor="let consumo of consumos">
-      <h2>{{ consumo?.preOpAprazamentos?.itemPrescricao?.descricaoItem + ' - ' +
-        consumo?.preOpAprazamentos?.itemPrescricao?.administracao + ' - ' +
-        consumo?.preOpAprazamentos?.itemPrescricao?.frequencia + 'h/' +
-        consumo?.preOpAprazamentos?.itemPrescricao?.frequencia + 'h' }}</h2>
-      <p><strong>Paciente:</strong> {{ consumo?.preOpAprazamentos?.prontuario?.nomeDoPaciente }}</p>
-      <p><strong>Técnico:</strong> NaN</p>
-      <ion-note item-end>{{ consumo?.dtOperacao | date:'dd/MM/yyyy hh:mm' }}</ion-note>
+    <ion-item *ngFor="let consumo of consumos">
+      <h2>{{ consumo?.aprazamento?.prontuario?.nomeDoPaciente }}</h2>
+      <p>{{ consumo?.aprazamento?.itemPrescricao?.descricaoItem + ' - ' +
+        consumo?.aprazamento?.itemPrescricao?.administracao + ' - ' +
+        consumo?.aprazamento?.itemPrescricao?.frequencia + 'h/' +
+        consumo?.aprazamento?.itemPrescricao?.frequencia + 'h' }}</p>
+      <p><strong>Profissional:</strong> NaN</p>
+      <p><strong>Horário:</strong> {{ consumo?.dtOperacao | date:'dd/MM/yyyy hh:mm' }}</p>
     </ion-item>
   </ion-list>
 

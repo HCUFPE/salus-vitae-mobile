@@ -9,12 +9,12 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-item text-nowrap *ngFor="let aprazamento of aprazamentos">
+    <ion-item *ngFor="let aprazamento of aprazamentos">
       <h2>{{ aprazamento?.prontuario?.nomeDoPaciente }}</h2>
-      <p>Leito</p>
       <p>{{ aprazamento?.itemPrescricao?.descricaoItem + ' - ' + aprazamento?.itemPrescricao?.administracao + ' - ' +
         aprazamento?.itemPrescricao?.frequencia + 'h/' + aprazamento?.itemPrescricao?.frequencia + 'h' }}</p>
-      <ion-note item-end>{{ aprazamento.horarioInicial | date:'dd/MM/yyyy hh:mm' }}</ion-note>
+      <p><strong>Leito:</strong> {{ aprazamento?.prontuario?.leito?.leito }}</p>
+      <p><strong>Horário:</strong> {{ aprazamento.horarioInicial | date:'dd/MM/yyyy hh:mm' }}</p>
     </ion-item>
   </ion-list>
 

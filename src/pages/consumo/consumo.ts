@@ -38,12 +38,12 @@ export class ConsumoPage {
         loading.present();
 
         this.hcUfpeApi.getProntuario(+barcodeData.text).then((prontuario: Prontuario) => {
-          loading.setContent('Obtendo o número do atendimento...');
+          loading.setContent('Obtendo o leito...');
 
-          this.hcUfpeApi.getLeitoByProntuario(+barcodeData.text).then((leito: Leito) => {
+          this.hcUfpeApi.getProntuarioWithAllDetails(prontuario).then((prontuario: Prontuario) => {
             loading.setContent('Obtendo os aprazamentos...');
 
-            this.salusVitaeApi.getPreOperacoesByProntuario(+barcodeData.text, leito.atendimento)
+            this.salusVitaeApi.getPreOperacoesByProntuario(prontuario.prontuario, prontuario.leito.atendimento)
               .then((aprazamentos: PreOperacao[]) => {
                 /*aprazamentos = aprazamentos.sort((a: PreOpAprazamentos, b: PreOpAprazamentos) => {
                   if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
@@ -51,8 +51,7 @@ export class ConsumoPage {
                   return 0;
                 });*/
 
-                this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, leito: leito,
-                  aprazamentos: aprazamentos});
+                this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, aprazamentos: aprazamentos });
               }).catch(() => {
                 this.toastCtrl.create({
                   message: 'Erro: Não foi possível obter os aprazamentos.',
@@ -65,7 +64,7 @@ export class ConsumoPage {
               })
           }).catch(() => {
             this.toastCtrl.create({
-              message: 'Erro: Não foi possível obter o número de atendimento.',
+              message: 'Erro: Não foi possível obter o leito.',
               showCloseButton: true,
               closeButtonText: 'Fechar',
               dismissOnPageChange: true

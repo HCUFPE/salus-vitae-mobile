@@ -32,3 +32,12 @@
 ion-title{
     text-align: center;
 }
+
+ion-list {
+    margin-top: 0!important;
+
+    ion-item {
+        padding-left: 16px!important;
+        padding-right: 16px!important;
+    }
+}

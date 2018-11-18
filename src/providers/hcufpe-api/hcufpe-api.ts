@@ -134,7 +134,10 @@ export class HCUFPEApiProvider {
         return new Promise((resolve, reject) => {
             this.getLeitos().then((ala: Ala) => {
                 const leito: Leito = ala.leitos.find((l: Leito) => l.prontuario === prontuario_id);
-                leito.ala = ala;
+                
+                if (leito) {
+                    leito.ala = ala;
+                }
 
                 resolve(leito);
             }).catch((err) => reject(err));
@@ -151,6 +154,16 @@ export class HCUFPEApiProvider {
         };
 
         return Observable.of(prontuario).delay(200).toPromise();
+    }
+
+    getProntuarioWithAllDetails(prontuario: Prontuario): Promise<Prontuario> {
+        return new Promise((resolve, reject) => {
+            this.getLeitoByProntuario(prontuario.prontuario).then((leito: Leito) => {
+                prontuario.leito = leito;
+
+                resolve(prontuario);
+            }).catch((err) => reject(err));
+        });
     }
 
     getAtendimento(atendimento_id: number, prontuario_id: number): Promise<Atendimento> {
