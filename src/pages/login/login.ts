@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Toast, ToastController } from 'ionic-angular';
 
+import { TabsPage } from '../tabs/tabs';
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -17,11 +19,12 @@ export class LoginPage {
 
   login() {
     if (this.credentials.username.toLocaleLowerCase() === 'enfermeira' && this.credentials.password === '123456') {
-      this.navCtrl.setRoot('TabsPage');
+      this.navCtrl.setRoot(TabsPage);
     } else {
       if (this.toast !== undefined) {
         this.toast.dismiss();
       }
+
       this.toast = this.toastCtrl.create({
         message: 'Usuário ou/e senha incorreto(s).',
         showCloseButton: true,

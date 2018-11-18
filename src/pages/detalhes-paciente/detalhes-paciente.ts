@@ -28,7 +28,6 @@ export class DetalhesPacientePage {
     this.leito = this.navParams.get('leito');
     this.aprazamentos = [];
     this.navParams.get('aprazamentos').forEach(a => this.aprazamentos.push({ aprazamento: a, checked: false }));
-    console.log(this.aprazamentos);
   }
 
   getAprazamentosChecked() {
@@ -36,7 +35,7 @@ export class DetalhesPacientePage {
   }
 
   toggleSwitch(checked: any) {
-    console.log(checked);
+    // console.log(checked);
   }
 
   confirm() {

@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Network } from '@ionic-native/network';
+import { Push, PushOptions, PushObject } from '@ionic-native/push';
 
 import { Observable } from 'rxjs';
 
@@ -13,10 +14,10 @@ import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-sto
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = LoginPage;
+  rootPage: any = LoginPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-    private consumoStorage: ConsumoStorageProvider, private network: Network) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private network: Network,
+    private push: Push, private consumoStorage: ConsumoStorageProvider) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -25,8 +26,27 @@ export class MyApp {
       } else {
         statusBar.styleDefault();
       }
-      
+
       splashScreen.hide();
+
+      this.push.hasPermission()
+        .then((permission: any) => {
+          if (permission.isEnabled) {
+            const options: PushOptions = {
+              android: {
+                forceShow: true
+              },
+              ios: {
+                  alert: 'true',
+                  badge: true,
+                  sound: 'false'
+              }
+            };
+
+            const pushObject: PushObject = this.push.init(options);
+            pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+          }
+        });
     });
 
     let isSync: boolean = false;
@@ -36,8 +56,8 @@ export class MyApp {
         isSync = true;
 
         this.consumoStorage.synchronize()
-        .then(() => isSync = false)
-        .catch(() => isSync = false);
+          .then(() => isSync = false)
+          .catch(() => isSync = false);
       }
     });
   }

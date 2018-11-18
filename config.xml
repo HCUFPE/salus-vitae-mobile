@@ -40,6 +40,7 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+        <resource-file src="google-services.json" target="app/google-services.json" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
@@ -86,6 +87,9 @@
     <plugin name="cordova-sqlite-storage" spec="^2.4.0" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
+    <plugin name="phonegap-plugin-push" spec="^2.2.3">
+        <variable name="SENDER_ID" value="13050142361" />
+    </plugin>
     <engine name="android" spec="7.1.1" />
     <engine name="browser" spec="5.0.4" />
 </widget>

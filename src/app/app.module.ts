@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network';
 import { Device } from '@ionic-native/device';
+import { Push } from '@ionic-native/push';
 
 import { MyApp } from './app.component';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
@@ -40,12 +41,13 @@ import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-sto
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
     Device,
     Network,
+    Push,
     SalusVitaeApiProvider,
     HCUFPEApiProvider,
-    ConsumoStorageProvider
+    ConsumoStorageProvider,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}

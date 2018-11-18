@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "13050142361",
+    "firebase_url": "https://push-notification-salus-vitae.firebaseio.com",
+    "project_id": "push-notification-salus-vitae",
+    "storage_bucket": "push-notification-salus-vitae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13050142361:android:e269ae64a3eb47ba",
+        "android_client_info": {
+          "package_name": "com.github.hcufpe.salus_vitae_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13050142361-0b26jbvmasu76ds9b37hl0p31ioh9cao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsPa0zH_vjVb2hlbjQ4hGuSqLGFw4xpFU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
