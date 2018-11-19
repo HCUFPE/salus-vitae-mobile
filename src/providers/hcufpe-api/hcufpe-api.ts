@@ -7,11 +7,21 @@ import { Ala } from '../../models/ala.model';
 import { Leito } from '../../models/leito.model';
 import { Prontuario } from '../../models/prontuario.model';
 import { Atendimento } from '../../models/atendimento.model';
+import { Usuario } from '../../models/usuario.model';
 
 @Injectable()
 export class HCUFPEApiProvider {
 
     constructor(public http: HttpClient) {
+    }
+
+    login(usuario: Usuario): Promise<Usuario> {
+        return Observable.of<Usuario>({
+            username: 'SALUS_VITAE', token: 'eyJhbGciOiJIUzUxMiJ9.' +
+                'eyJzdWIiOiJTQUxVU19WSVRBRSIsImlhdCI6MTU0MTk5NzgwOSwiYWRtaW4iOiJmYWxzZSJ9.' +
+                'fPXoZAvQ-wXXlCuVZzbLpiXcEfBb6_3pviKdyLhyw7T5OUtHANauy9L3WLirY0fEG8U82ZtzWfvAHN8ixOzuiw'
+        }).delay(200)
+            .toPromise();
     }
 
     getLeitos(): Promise<Ala> {
@@ -134,7 +144,7 @@ export class HCUFPEApiProvider {
         return new Promise((resolve, reject) => {
             this.getLeitos().then((ala: Ala) => {
                 const leito: Leito = ala.leitos.find((l: Leito) => l.prontuario === prontuario_id);
-                
+
                 if (leito) {
                     leito.ala = ala;
                 }

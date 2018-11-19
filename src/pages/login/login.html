@@ -14,17 +14,20 @@
         <ion-col>
           <ion-list inset>
             <ion-item>
-              <ion-input id="username" name="username" type="text" placeholder="Usuário" (keyup)="onKeyUp($event.target.value)" onpaste="return false;"
-               autocapitalize="off" #username="ngModel" [(ngModel)]="credentials.username" required minlength="6" maxlength="15"></ion-input>
+              <ion-input #username="ngModel" id="username" name="username" type="text" placeholder="Usuário"
+               autocapitalize="off" [(ngModel)]="credentials.username" required></ion-input>
             </ion-item>
-            <span *ngIf="username.touched && username?.errors?.minlength" class="login-error">
-              Username deve possuir no mínimo {{ username?.errors.minlength.requiredLength }} caracteres
+            <span *ngIf="username.touched && username?.errors?.required" class="login-error">
+              Usuário é obrigatório
             </span>
             <br>
             <ion-item>
-              <ion-input id="password" name="password" type="password" placeholder="*****" onpaste="return false;"
-               #password="ngModel" [(ngModel)]="credentials.password" required minlength="6" maxlength="15"></ion-input>
+              <ion-input #password="ngModel" id="password" name="password" type="password" placeholder="*****"
+                [(ngModel)]="credentials.password" required minlength="8"></ion-input>
             </ion-item>
+            <span *ngIf="username.touched && username?.errors?.required" class="login-error">
+              Senha é obrigatória
+            </span>
             <span *ngIf="password.touched && password?.errors?.minlength" class="login-error">
               Senha deve possuir no mínimo {{ password?.errors.minlength.requiredLength }} caracteres
             </span>

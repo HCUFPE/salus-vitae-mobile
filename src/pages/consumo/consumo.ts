@@ -7,7 +7,6 @@ import { HCUFPEApiProvider } from '../../providers/hcufpe-api/hcufpe-api';
 import { Prontuario } from '../../models/prontuario.model';
 import { PreOperacao } from '../../models/pre-operacao.model';
 import { DetalhesPacientePage } from '../detalhes-paciente/detalhes-paciente';
-import { Leito } from '../../models/leito.model';
 
 @IonicPage()
 @Component({
@@ -37,7 +36,8 @@ export class ConsumoPage {
 
         loading.present();
 
-        this.hcUfpeApi.getProntuario(+barcodeData.text).then((prontuario: Prontuario) => {
+        this.hcUfpeApi.getProntuario(10000000).then((prontuario: Prontuario) => {
+          //(+barcodeData.text).then((prontuario: Prontuario) => {
           loading.setContent('Obtendo o leito...');
 
           this.hcUfpeApi.getProntuarioWithAllDetails(prontuario).then((prontuario: Prontuario) => {

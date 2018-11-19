@@ -44,10 +44,6 @@ export class ConsumoStorageProvider {
     return await this.storage.get(this.key);
   }
 
-  async clear() {
-    return await this.storage.clear();
-  }
-
   async synchronize() {
     let administrados: Operacao[] = await this.getAll();
 

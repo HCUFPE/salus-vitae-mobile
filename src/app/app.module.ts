@@ -9,6 +9,8 @@ import { Network } from '@ionic-native/network';
 import { Device } from '@ionic-native/device';
 import { Push } from '@ionic-native/push';
 
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+
 import { MyApp } from './app.component';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { ConsumoPageModule } from '../pages/consumo/consumo.module';
@@ -18,6 +20,21 @@ import { LoginPageModule } from '../pages/login/login.module';
 import { SalusVitaeApiProvider } from '../providers/salusvitae-api/salusvitae-api';
 import { HCUFPEApiProvider } from '../providers/hcufpe-api/hcufpe-api';
 import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
+import { UsuarioStorageProvider } from '../providers/usuario-storage/usuario-storage';
+
+export function jwtOptionsFactory(usuarioStorageProvider) {
+  return {
+    tokenGetter: () => {
+      return usuarioStorageProvider.getAccessToken();
+    },
+    whitelistedDomains: [
+      '10.34.8.1:7070'
+    ],
+    blacklistedRoutes: [
+      '10.34.8.1:7070/auth-service/ws/login'
+    ]
+  }
+}
 
 @NgModule({
   declarations: [
@@ -32,7 +49,14 @@ import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-sto
     ConsumoPageModule,
     AprazamentoPageModule,
     DetalhesPacientePageModule,
-    LoginPageModule
+    LoginPageModule,
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory,
+        deps: [UsuarioStorageProvider]
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -47,6 +71,7 @@ import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-sto
     SalusVitaeApiProvider,
     HCUFPEApiProvider,
     ConsumoStorageProvider,
+    UsuarioStorageProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
