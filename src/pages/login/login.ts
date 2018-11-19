@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Toast, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 
 import { TabsPage } from '../tabs/tabs';
 import { Usuario } from '../../models/usuario.model';
@@ -46,7 +46,7 @@ export class LoginPage {
       })
       .catch(() => {
         this.toastCtrl.create({
-          message: 'Usuário ou/e senha incorreto(s)',
+          message: 'Usuário e/ou senha incorreto(s)',
           duration: 3000,
           dismissOnPageChange: true
         }).present();

@@ -24,15 +24,15 @@ import { UsuarioStorageProvider } from '../providers/usuario-storage/usuario-sto
 
 export function jwtOptionsFactory(usuarioStorageProvider) {
   return {
-    tokenGetter: () => {
-      return usuarioStorageProvider.getAccessToken();
-    },
     whitelistedDomains: [
-      '10.34.8.1:7070'
+      HCUFPEApiProvider.BASE_URL
     ],
     blacklistedRoutes: [
-      '10.34.8.1:7070/auth-service/ws/login'
-    ]
+      HCUFPEApiProvider.LOGIN_URL
+    ],
+    tokenGetter: () => {
+      return usuarioStorageProvider.getAccessToken();
+    }
   }
 }
 
