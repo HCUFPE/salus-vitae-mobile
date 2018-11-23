@@ -27,16 +27,14 @@ export class AprazamentoPage {
     this.salusVitaeApi.getPreOperacoes().then((aprazamentos: PreOperacao[]) => {
       this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos.filter(a => a.status === 'P'))
         .then((aprazamentos: PreOperacao[]) => {
-          /*this.aprazamentos = aprazamentos.sort((a: PreOpAprazamentos, b: PreOpAprazamentos) => {
+          this.aprazamentos = aprazamentos.sort((a: PreOperacao, b: PreOperacao) => {
             if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
             if (new Date(a.horarioInicial) > new Date(b.horarioInicial)) return 1;
             return 0;
-          });*/
-          this.aprazamentos = aprazamentos;
+          });
 
           loading.dismiss();
-        })
-        .catch(() => this.showErrorToast(loading));
+        }).catch(() => this.showErrorToast(loading));
     }).catch(() => this.showErrorToast(loading));
 
   }
@@ -49,7 +47,7 @@ export class AprazamentoPage {
       closeButtonText: 'Fechar',
       dismissOnPageChange: true
     }).present();
-    
+
     loading.dismiss();
   }
 
