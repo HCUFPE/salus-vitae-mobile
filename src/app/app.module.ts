@@ -13,7 +13,7 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { MyApp } from './app.component';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
-import { ConsumoPageModule } from '../pages/consumo/consumo.module';
+import { AdministracaoPageModule } from '../pages/administracao/administracao.module';
 import { AprazamentoPageModule } from '../pages/aprazamento/aprazamento.module';
 import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-paciente.module';
 import { LoginPageModule } from '../pages/login/login.module';
@@ -46,7 +46,7 @@ export function jwtOptionsFactory(usuarioStorageProvider) {
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     TabsPageModule,
-    ConsumoPageModule,
+    AdministracaoPageModule,
     AprazamentoPageModule,
     DetalhesPacientePageModule,
     LoginPageModule,

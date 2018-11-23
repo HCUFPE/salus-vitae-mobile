@@ -10,10 +10,10 @@ import { DetalhesPacientePage } from '../detalhes-paciente/detalhes-paciente';
 
 @IonicPage()
 @Component({
-  selector: 'page-consumo',
-  templateUrl: 'consumo.html',
+  selector: 'page-administracao',
+  templateUrl: 'administracao.html',
 })
-export class ConsumoPage {
+export class AdministracaoPage {
 
   constructor(public platform: Platform, public navCtrl: NavController, public toastCtrl: ToastController,
     public loadingCtrl: LoadingController, private barcodeScanner: BarcodeScanner,
@@ -95,7 +95,7 @@ export class ConsumoPage {
           loading.dismiss();
         });
       } else {
-        this.navCtrl.setRoot('ConsumoPage');
+        this.navCtrl.setRoot(AdministracaoPage);
       }
     }).catch(err => {
       this.toastCtrl.create({
