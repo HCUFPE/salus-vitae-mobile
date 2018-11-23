@@ -27,17 +27,15 @@ export class HistoricoPage {
     loading.present();
 
     this.salusVitaeApi.getHistorico("123").then((consumos: Operacao[]) => {
-      this.salusVitaeApi.getOperacoesWithAllDetails(consumos)
-        .then((consumos: Operacao[]) => {
-          this.consumos = consumos.sort((a: Operacao, b: Operacao) => {
-            if (new Date(a.dtOperacao) < new Date(b.dtOperacao)) return -1;
-            if (new Date(a.dtOperacao) > new Date(b.dtOperacao)) return 1;
-            return 0;
-          });
+      this.salusVitaeApi.getOperacoesWithAllDetails(consumos).then((consumos: Operacao[]) => {
+        this.consumos = consumos.sort((a: Operacao, b: Operacao) => {
+          if (new Date(a.dtOperacao) > new Date(b.dtOperacao)) return -1;
+          if (new Date(a.dtOperacao) < new Date(b.dtOperacao)) return 1;
+          return 0;
+        });
 
-          loading.dismiss();
-        })
-        .catch(() => this.showErrorToast(loading));
+        loading.dismiss();
+      }).catch(() => this.showErrorToast(loading));
     }).catch(() => this.showErrorToast(loading));
   }
 
@@ -49,7 +47,7 @@ export class HistoricoPage {
       closeButtonText: 'Fechar',
       dismissOnPageChange: true
     }).present();
-    
+
     loading.dismiss();
   }
 
