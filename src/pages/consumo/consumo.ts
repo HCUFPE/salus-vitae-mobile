@@ -36,7 +36,7 @@ export class ConsumoPage {
 
         loading.present();
 
-        this.hcUfpeApi.getProntuario(10000000).then((prontuario: Prontuario) => {
+        this.hcUfpeApi.getProntuario(19569516).then((prontuario: Prontuario) => {
           //(+barcodeData.text).then((prontuario: Prontuario) => {
           loading.setContent('Obtendo o leito...');
 
@@ -51,7 +51,19 @@ export class ConsumoPage {
                   return 0;
                 });*/
 
-                this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, aprazamentos: aprazamentos });
+                this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos)
+                .then((aprazamentos: PreOperacao[]) => {
+                  this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, aprazamentos: aprazamentos });
+                }).catch(() => {
+                  this.toastCtrl.create({
+                    message: 'Erro: Não foi possível obter os aprazamentos.',
+                    showCloseButton: true,
+                    closeButtonText: 'Fechar',
+                    dismissOnPageChange: true
+                  }).present();
+  
+                  loading.dismiss();
+                });
               }).catch(() => {
                 this.toastCtrl.create({
                   message: 'Erro: Não foi possível obter os aprazamentos.',

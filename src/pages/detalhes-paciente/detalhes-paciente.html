@@ -22,20 +22,21 @@
   <div [ngSwitch]="dados">
     <div *ngSwitchCase="'aprazamentos'">
       <ion-list>
-        <ion-item *ngFor="let aprazamento of aprazamentos">
+        <ion-item text-wrap *ngFor="let aprazamento of aprazamentos">
           <ion-toggle [(ngModel)]="aprazamento.checked" (ionChange)="toggleSwitch(aprazamento.checked)"></ion-toggle>
           <ion-label>
-            <p>{{ aprazamento.aprazamento?.itemPrescricao?.descricaoItem }}</p>
-            <p>{{ aprazamento.aprazamento?.itemPrescricao?.administracao + ' - ' +
+            <p>{{ aprazamento.aprazamento.itemPrescricao ?
+              aprazamento.aprazamento?.itemPrescricao?.descricaoItem + ' - ' +
+              aprazamento.aprazamento?.itemPrescricao?.administracao + ' - ' +
               aprazamento.aprazamento?.itemPrescricao?.frequencia + 'h/' +
-              aprazamento.aprazamento?.itemPrescricao?.frequencia + 'h' }}</p>
-            <p><strong>Horário:</strong> {{ aprazamento.aprazamento.horarioInicial | date:'hh:mm' }}</p>
+              aprazamento.aprazamento?.itemPrescricao?.frequencia + 'h' : 'Medicamento não identificado'}}</p>
+            <p><strong>Horário:</strong> {{ aprazamento.aprazamento?.horarioInicial | date:'dd/MM/yyyy HH:mm' }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
     </div>
     <div *ngSwitchCase="'detalhes'">
-      <p><strong>Data de nascimento:</strong> {{ prontuario.dataNascimento | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Data de nascimento:</strong> {{ prontuario.dataNascimento }}</p>
       <p><strong>Sexo:</strong> {{ prontuario.sexo }}</p>
       <p><strong>Nome da Mãe:</strong> {{ prontuario.nomeMae }}</p>
       <p><strong>Prontuário:</strong> {{ prontuario.prontuario }}</p>

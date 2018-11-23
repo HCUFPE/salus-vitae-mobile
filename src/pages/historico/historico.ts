@@ -20,7 +20,8 @@ export class HistoricoPage {
 
   ionViewDidEnter() {
     let loading: Loading = this.loadingCtrl.create({
-      content: 'Obtendo informações do histórico...'
+      content: 'Obtendo informações do histórico...',
+      dismissOnPageChange: true
     });
 
     loading.present();
@@ -35,17 +36,21 @@ export class HistoricoPage {
           });
 
           loading.dismiss();
-        });
-    }).catch(() => {
-      this.toastCtrl.create({
-        message: 'Erro: Não foi possível obter o histórico.',
-        showCloseButton: true,
-        closeButtonText: 'Fechar',
-        dismissOnPageChange: true
-      }).present();
-      loading.dismiss();
-    }
-    );
+        })
+        .catch(() => this.showErrorToast(loading));
+    }).catch(() => this.showErrorToast(loading));
+  }
+
+  showErrorToast(loading: Loading) {
+    this.toastCtrl.create({
+      message: 'Erro: Não foi possível obter o histórico.',
+      cssClass: 'btn-cancel',
+      showCloseButton: true,
+      closeButtonText: 'Fechar',
+      dismissOnPageChange: true
+    }).present();
+    
+    loading.dismiss();
   }
 
 }

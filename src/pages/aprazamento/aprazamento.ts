@@ -25,7 +25,7 @@ export class AprazamentoPage {
     loading.present();
 
     this.salusVitaeApi.getPreOperacoes().then((aprazamentos: PreOperacao[]) => {
-      this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos)
+      this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos.filter(a => a.status === 'P'))
         .then((aprazamentos: PreOperacao[]) => {
           /*this.aprazamentos = aprazamentos.sort((a: PreOpAprazamentos, b: PreOpAprazamentos) => {
             if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
@@ -33,22 +33,24 @@ export class AprazamentoPage {
             return 0;
           });*/
           this.aprazamentos = aprazamentos;
+
           loading.dismiss();
-        });
-    }).catch(() => {
-      this.showErrorToast();
-      loading.dismiss();
-    });
+        })
+        .catch(() => this.showErrorToast(loading));
+    }).catch(() => this.showErrorToast(loading));
 
   }
 
-  showErrorToast() {
+  showErrorToast(loading: Loading) {
     this.toastCtrl.create({
       message: 'Erro: Não foi possível obter os aprazamentos.',
+      cssClass: 'btn-cancel',
       showCloseButton: true,
       closeButtonText: 'Fechar',
       dismissOnPageChange: true
     }).present();
+    
+    loading.dismiss();
   }
 
 }

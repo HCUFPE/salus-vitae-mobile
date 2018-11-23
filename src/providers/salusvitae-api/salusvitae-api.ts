@@ -28,16 +28,18 @@ export class SalusVitaeApiProvider {
 
   getPreOperacoesByProntuario(prontuario: number, atendimento: number): Promise<PreOperacao[]> {
     return new Promise((resolve, reject) => {
-      this.getPreOperacoes().then((aprazamentos: PreOperacao[]) => {
-        resolve(aprazamentos);//.filter(a => a.cdProntuario === prontuario && a.cdAtendimento === atendimento));
-      }).catch((err) => reject(err));
+      this.getPreOperacoes()
+        .then((aprazamentos: PreOperacao[]) => {
+          resolve(aprazamentos.filter(a => a.cdProntuario === prontuario && a.cdAtendimento === atendimento));
+        })
+        .catch((err) => reject(err));
     });
   }
 
   async getPreOperacaoWithAllDetails(aprazamento: PreOperacao): Promise<PreOperacao> {
     aprazamento.prontuario = await this.hcUfpeApi.getProntuario(aprazamento.cdProntuario);
-    aprazamento.atendimento = await this.hcUfpeApi.getAtendimentoByPrescricao(aprazamento.cdAtendimento,
-      aprazamento.cdProntuario, aprazamento.cdPrescricao);
+    aprazamento.atendimento = await this.hcUfpeApi.getAtendimentoByPrescricao(aprazamento.cdProntuario,
+      aprazamento.cdAtendimento, aprazamento.cdPrescricao);
 
     const prescricao: Prescricao = aprazamento.atendimento.prescricoes
       .find(p => p.prescricao === aprazamento.cdPrescricao);
@@ -45,7 +47,7 @@ export class SalusVitaeApiProvider {
     if (prescricao !== undefined) {
       aprazamento.itemPrescricao = prescricao.Itens.find(i => i.ordemItem === aprazamento.ordemItem &&
         i.codigoTipoItem === aprazamento.cdTpItem &&
-        i.codigoItem === aprazamento.cdItem);
+        i.codigoItem == aprazamento.cdItem);
     }
 
     return aprazamento;
@@ -57,28 +59,41 @@ export class SalusVitaeApiProvider {
 
     for (const aprazamento of aprazamentos) {
       if (!prontuarios.has(aprazamento.cdProntuario)) {
-        const prontuario: Prontuario = await this.hcUfpeApi.getProntuario(aprazamento.cdProntuario);
+        let prontuario: Prontuario;
 
-        prontuarios.set(aprazamento.cdProntuario,
-          await this.hcUfpeApi.getProntuarioWithAllDetails(prontuario));
+        try {
+          prontuario = await this.hcUfpeApi.getProntuario(aprazamento.cdProntuario);
+          prontuario = await this.hcUfpeApi.getProntuarioWithAllDetails(prontuario);
+        } catch(err) {
+        }
+
+        prontuarios.set(aprazamento.cdProntuario, prontuario);
       }
 
       if (!atendimentos.has(aprazamento.cdAtendimento)) {
-        atendimentos.set(aprazamento.cdAtendimento,
-          await this.hcUfpeApi.getAtendimentoByPrescricao(aprazamento.cdAtendimento,
-            aprazamento.cdProntuario, aprazamento.cdPrescricao));
-      }
+        let atendimento: Atendimento;
 
+        try {
+          atendimento = await this.hcUfpeApi.getAtendimentoByPrescricao(aprazamento.cdProntuario,
+            aprazamento.cdAtendimento, aprazamento.cdPrescricao);
+        } catch(err) {
+        }
+
+        atendimentos.set(aprazamento.cdAtendimento, atendimento);
+      }
+      
       aprazamento.prontuario = prontuarios.get(aprazamento.cdProntuario);
       aprazamento.atendimento = atendimentos.get(aprazamento.cdAtendimento);
 
-      const prescricao: Prescricao = aprazamento.atendimento.prescricoes
-        .find(p => p.prescricao === aprazamento.cdPrescricao);
+      if (aprazamento.atendimento !== undefined) {
+        aprazamento.prescricao = aprazamento.atendimento.prescricoes
+          .find(p => p.prescricao === aprazamento.cdPrescricao);
+      }
 
-      if (prescricao !== undefined) {
-        aprazamento.itemPrescricao = prescricao.Itens.find(i => i.ordemItem === aprazamento.ordemItem &&
+      if (aprazamento.prescricao !== undefined) {
+        aprazamento.itemPrescricao = aprazamento.prescricao.Itens.find(i => i.ordemItem === aprazamento.ordemItem &&
           i.codigoTipoItem === aprazamento.cdTpItem &&
-          i.codigoItem === aprazamento.cdItem);
+          i.codigoItem == aprazamento.cdItem);
       }
     }
 
@@ -97,10 +112,15 @@ export class SalusVitaeApiProvider {
 
     for (const consumo of consumos) {
       if (!aprazamentos.has(consumo.cdPreOperacaoAprazamento)) {
-        const aprazamento: PreOperacao = await this.getPreOperacaoById(consumo.cdPreOperacaoAprazamento);
+        let aprazamento: PreOperacao;
 
-        aprazamentos.set(consumo.cdPreOperacaoAprazamento,
-          await this.getPreOperacaoWithAllDetails(aprazamento));
+        try {
+          aprazamento = await this.getPreOperacaoById(consumo.cdPreOperacaoAprazamento);
+          aprazamento = await this.getPreOperacaoWithAllDetails(aprazamento);
+        } catch(err) {
+        }
+
+        aprazamentos.set(consumo.cdPreOperacaoAprazamento, aprazamento);
       }
 
       consumo.aprazamento = aprazamentos.get(consumo.cdPreOperacaoAprazamento);
@@ -122,8 +142,8 @@ export class SalusVitaeApiProvider {
 
     for (const consumo of consumos) {
       this.postOperacao(consumo)
-      .then((consumo: Operacao) => response.push(consumo))
-      .catch((err: any) => response.push(err));
+        .then((consumo: Operacao) => response.push(consumo))
+        .catch((err: any) => response.push(err));
     }
 
     return response;

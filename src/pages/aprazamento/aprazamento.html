@@ -9,12 +9,17 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-item *ngFor="let aprazamento of aprazamentos">
-      <h2>{{ aprazamento?.prontuario?.nomeDoPaciente }}</h2>
-      <p>{{ aprazamento?.itemPrescricao?.descricaoItem + ' - ' + aprazamento?.itemPrescricao?.administracao + ' - ' +
-        aprazamento?.itemPrescricao?.frequencia + 'h/' + aprazamento?.itemPrescricao?.frequencia + 'h' }}</p>
-      <p><strong>Leito:</strong> {{ aprazamento?.prontuario?.leito?.leito }}</p>
-      <p><strong>Horário:</strong> {{ aprazamento.horarioInicial | date:'dd/MM/yyyy hh:mm' }}</p>
+    <ion-item text-wrap *ngFor="let aprazamento of aprazamentos">
+      <h2>{{ aprazamento.prontuario ?
+        aprazamento?.prontuario?.nomeDoPaciente : 'Paciente não identificado' }}</h2>
+      <p><strong>Medicamento:</strong> {{ aprazamento.itemPrescricao ?
+        (aprazamento?.itemPrescricao?.descricaoItem + ' - ' +
+        aprazamento?.itemPrescricao?.administracao + ' - ' +
+        aprazamento?.itemPrescricao?.frequencia + 'h/' +
+        aprazamento?.itemPrescricao?.frequencia + 'h') : 'Não identificado' }}</p>
+      <p><strong>Leito:</strong> {{ aprazamento.prontuario && aprazamento.prontuario.leito ?
+        aprazamento?.prontuario?.leito?.leito : 'Não identificado' }}</p>
+      <p><strong>Horário:</strong> {{ aprazamento.horarioInicial | date:'dd/MM/yyyy HH:mm' }}</p>
     </ion-item>
   </ion-list>
 
