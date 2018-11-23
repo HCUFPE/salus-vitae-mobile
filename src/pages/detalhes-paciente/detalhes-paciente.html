@@ -9,7 +9,7 @@
 <ion-content padding>
 
   <h3 text-center>{{ prontuario.nomeDoPaciente }}</h3>
-  <h5 text-center>Ala {{ prontuario?.leito?.ala.Ala }}</h5>
+  <h5 text-center>{{ prontuario?.leito?.ala.Ala }}</h5>
   <h5 text-center>Leito {{ prontuario?.leito.leito }}</h5>
   <ion-segment id="segment" color="primary" [(ngModel)]="dados">
     <ion-segment-button value="aprazamentos">

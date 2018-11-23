@@ -34,7 +34,8 @@ export class MyApp {
           if (permission.isEnabled) {
             const options: PushOptions = {
               android: {
-                forceShow: true
+                forceShow: true,
+                topics: ['aprazamentos']
               },
               ios: {
                   alert: 'true',
