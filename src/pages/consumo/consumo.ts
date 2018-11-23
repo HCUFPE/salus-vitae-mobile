@@ -45,25 +45,25 @@ export class ConsumoPage {
 
             this.salusVitaeApi.getPreOperacoesByProntuario(prontuario.prontuario, prontuario.leito.atendimento)
               .then((aprazamentos: PreOperacao[]) => {
-                /*aprazamentos = aprazamentos.sort((a: PreOpAprazamentos, b: PreOpAprazamentos) => {
-                  if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
-                  if (new Date(a.horarioInicial) > new Date(b.horarioInicial)) return 1;
-                  return 0;
-                });*/
-
                 this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos)
-                .then((aprazamentos: PreOperacao[]) => {
-                  this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, aprazamentos: aprazamentos });
-                }).catch(() => {
-                  this.toastCtrl.create({
-                    message: 'Erro: Não foi possível obter os aprazamentos.',
-                    showCloseButton: true,
-                    closeButtonText: 'Fechar',
-                    dismissOnPageChange: true
-                  }).present();
-  
-                  loading.dismiss();
-                });
+                  .then((aprazamentos: PreOperacao[]) => {
+                    aprazamentos = aprazamentos.sort((a: PreOperacao, b: PreOperacao) => {
+                      if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
+                      if (new Date(a.horarioInicial) > new Date(b.horarioInicial)) return 1;
+                      return 0;
+                    });
+
+                    this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, aprazamentos: aprazamentos });
+                  }).catch(() => {
+                    this.toastCtrl.create({
+                      message: 'Erro: Não foi possível obter os aprazamentos.',
+                      showCloseButton: true,
+                      closeButtonText: 'Fechar',
+                      dismissOnPageChange: true
+                    }).present();
+
+                    loading.dismiss();
+                  });
               }).catch(() => {
                 this.toastCtrl.create({
                   message: 'Erro: Não foi possível obter os aprazamentos.',
