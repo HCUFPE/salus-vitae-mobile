@@ -6,38 +6,38 @@ import { SalusVitaeApiProvider } from '../salusvitae-api/salusvitae-api';
 import { Operacao } from '../../models/operacao.model';
 
 @Injectable()
-export class ConsumoStorageProvider {
+export class AdministracaoStorageProvider {
 
-  private key: string = 'consumo';
+  private key: string = 'administracao';
 
   constructor(private storage: Storage, private salusVitaeApi: SalusVitaeApiProvider,
     private toastCtrl: ToastController) {
   }
 
-  async save(consumo: Operacao) {
-    let consumos: Operacao[] = await this.getAll();
+  async save(administracao: Operacao) {
+    let administracoes: Operacao[] = await this.getAll();
 
-    if (consumos) {
-      consumos.push(consumo);
+    if (administracoes) {
+      administracoes.push(administracao);
     } else {
-      consumos = [consumo];
+      administracoes = [administracao];
     }
 
-    return await this.storage.set(this.key, consumos);
+    return await this.storage.set(this.key, administracoes);
   }
 
-  async saveAll(consumos: Operacao[]) {
-    let consumosSaved: Operacao[] = await this.getAll();
+  async saveAll(administracoes: Operacao[]) {
+    let administracoesSaved: Operacao[] = await this.getAll();
 
-    if (consumosSaved) {
-      consumosSaved.push(...consumos);
-    } else if (consumos) {
-      consumosSaved = consumos;
+    if (administracoesSaved) {
+      administracoesSaved.push(...administracoes);
+    } else if (administracoes) {
+      administracoesSaved = administracoes;
     } else {
-      consumosSaved = [];
+      administracoesSaved = [];
     }
 
-    return await this.storage.set(this.key, consumosSaved);
+    return await this.storage.set(this.key, administracoesSaved);
   }
  
   async getAll() {

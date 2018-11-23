@@ -8,7 +8,7 @@ import { Push, PushOptions, PushObject } from '@ionic-native/push';
 import { Observable } from 'rxjs';
 
 import { LoginPage } from '../pages/login/login';
-import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
+import { AdministracaoStorageProvider } from '../providers/administracao-storage/administracao-storage';
 
 @Component({
   templateUrl: 'app.html'
@@ -17,7 +17,7 @@ export class MyApp {
   rootPage: any = LoginPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private network: Network,
-    private push: Push, private consumoStorage: ConsumoStorageProvider) {
+    private push: Push, private administracaoStorage: AdministracaoStorageProvider) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -55,7 +55,7 @@ export class MyApp {
       if (this.isConnected() && !isSync) {
         isSync = true;
 
-        this.consumoStorage.synchronize()
+        this.administracaoStorage.synchronize()
           .then(() => isSync = false)
           .catch(() => isSync = false);
       }

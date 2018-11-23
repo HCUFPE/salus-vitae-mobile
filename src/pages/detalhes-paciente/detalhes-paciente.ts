@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController, LoadingController
 import { Device } from '@ionic-native/device';
 
 import { SalusVitaeApiProvider } from '../../providers/salusvitae-api/salusvitae-api';
-import { ConsumoStorageProvider } from '../../providers/consumo-storage/consumo-storage';
+import { AdministracaoStorageProvider } from '../../providers/administracao-storage/administracao-storage';
 import { Prontuario } from '../../models/prontuario.model';
 import { PreOperacao } from '../../models/pre-operacao.model';
 import { Operacao } from '../../models/operacao.model';
@@ -22,7 +22,7 @@ export class DetalhesPacientePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
     public loadingCtrl: LoadingController, private salusVitaeApi: SalusVitaeApiProvider,
-    private consumoStorage: ConsumoStorageProvider, private device: Device) {
+    private administracaoStorage: AdministracaoStorageProvider, private device: Device) {
     this.prontuario = this.navParams.get('prontuario');
     this.aprazamentos = [];
     this.navParams.get('aprazamentos').forEach(a => this.aprazamentos.push({ aprazamento: a, checked: false }));
@@ -67,7 +67,7 @@ export class DetalhesPacientePage {
   salvarConsumos(consumos: any[]) {
     /*const consumidos = consumos.filter(c => c.isConsumido !== undefined);
 
-    this.consumoStorage.saveAll(consumidos).then(() => {
+    this.administracaoStorage.saveAll(consumidos).then(() => {
       this.showToastConsumo('Não foi possivel enviar, as administrações foram salvas e serão enviadas automaticamente!',
         false);
     }).catch(() => {

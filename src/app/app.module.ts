@@ -19,7 +19,7 @@ import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-
 import { LoginPageModule } from '../pages/login/login.module';
 import { SalusVitaeApiProvider } from '../providers/salusvitae-api/salusvitae-api';
 import { HCUFPEApiProvider } from '../providers/hcufpe-api/hcufpe-api';
-import { ConsumoStorageProvider } from '../providers/consumo-storage/consumo-storage';
+import { AdministracaoStorageProvider } from '../providers/administracao-storage/administracao-storage';
 import { UsuarioStorageProvider } from '../providers/usuario-storage/usuario-storage';
 
 export function jwtOptionsFactory(usuarioStorageProvider) {
@@ -70,7 +70,7 @@ export function jwtOptionsFactory(usuarioStorageProvider) {
     Push,
     SalusVitaeApiProvider,
     HCUFPEApiProvider,
-    ConsumoStorageProvider,
+    AdministracaoStorageProvider,
     UsuarioStorageProvider,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
