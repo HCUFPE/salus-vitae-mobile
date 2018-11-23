@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 
+import { UsuarioStorageProvider } from '../../providers/usuario-storage/usuario-storage';
+import { LoginPage } from '../login/login';
+
 @IonicPage()
 @Component({
   selector: 'page-tabs',
@@ -11,6 +14,12 @@ export class TabsPage {
   administracaoRoot = 'AdministracaoPage'
   aprazamentoRoot = 'AprazamentoPage'
   historicoRoot = 'HistoricoPage'
-  constructor(public navCtrl: NavController) {}
+
+  constructor(public navCtrl: NavController, private usuarioStorage: UsuarioStorageProvider) {
+  }
+
+  logout() {
+    this.usuarioStorage.remove().then(() => this.navCtrl.setRoot(LoginPage));
+  }
 
 }
