@@ -1,7 +1,7 @@
 import { Ala } from "./ala.model";
 
 export interface Leito {
-    leito: number;
+    leito: string;
     atendimento?: number;
     prontuario?: number;
 

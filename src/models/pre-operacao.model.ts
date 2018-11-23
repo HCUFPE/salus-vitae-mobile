@@ -1,5 +1,6 @@
 import { Prontuario } from "./prontuario.model";
 import { Atendimento } from "./atendimento.model";
+import { Prescricao } from "./prescricao.model";
 import { ItemPrescricao } from "./item-prescricao.model";
 
 export interface PreOperacao {
@@ -18,5 +19,6 @@ export interface PreOperacao {
 
     prontuario?: Prontuario;
     atendimento?: Atendimento;
+    prescricao?: Prescricao;
     itemPrescricao?: ItemPrescricao;
 }

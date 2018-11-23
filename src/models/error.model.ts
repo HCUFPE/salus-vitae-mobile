@@ -4,4 +4,5 @@ export interface Error {
     error: string;
     message: string;
     status: number;
+    timestamp?: Date;
 }
