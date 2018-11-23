@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.github.hcufpe.salus_vitae_mobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Salus Vitae</name>
-    <description>Um aplicativo para o auxílio do consumo e aprazamento de medicações</description>
+    <description>Um aplicativo para o auxílio da administração de medicamentos</description>
     <author href="https://github.com/HCUFPE">HCUFPE Team</author>
     <content src="index.html" />
     <access origin="*" />
