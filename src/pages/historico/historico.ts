@@ -12,7 +12,7 @@ import { Operacao } from '../../models/operacao.model';
 })
 export class HistoricoPage {
 
-  consumos: Operacao[];
+  administracoes: Operacao[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController,
     public loadingCtrl: LoadingController, private salusVitaeApi: SalusVitaeApiProvider, public device: Device) {
@@ -26,9 +26,9 @@ export class HistoricoPage {
 
     loading.present();
 
-    this.salusVitaeApi.getHistorico("123").then((consumos: Operacao[]) => {
-      this.salusVitaeApi.getOperacoesWithAllDetails(consumos).then((consumos: Operacao[]) => {
-        this.consumos = consumos.sort((a: Operacao, b: Operacao) => {
+    this.salusVitaeApi.getHistorico("123").then((administracoes: Operacao[]) => {
+      this.salusVitaeApi.getOperacoesWithAllDetails(administracoes).then((administracoes: Operacao[]) => {
+        this.administracoes = administracoes.sort((a: Operacao, b: Operacao) => {
           if (new Date(a.dtOperacao) > new Date(b.dtOperacao)) return -1;
           if (new Date(a.dtOperacao) < new Date(b.dtOperacao)) return 1;
           return 0;

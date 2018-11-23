@@ -100,49 +100,49 @@ export class SalusVitaeApiProvider {
     return aprazamentos;
   }
 
-  async getOperacaoWithAllDetails(consumo: Operacao): Promise<Operacao> {
-    const aprazamento: PreOperacao = await this.getPreOperacaoById(consumo.cdPreOperacaoAprazamento);
-    consumo.aprazamento = await this.getPreOperacaoWithAllDetails(aprazamento);
+  async getOperacaoWithAllDetails(administracao: Operacao): Promise<Operacao> {
+    const aprazamento: PreOperacao = await this.getPreOperacaoById(administracao.cdPreOperacaoAprazamento);
+    administracao.aprazamento = await this.getPreOperacaoWithAllDetails(aprazamento);
 
-    return consumo;
+    return administracao;
   }
 
-  async getOperacoesWithAllDetails(consumos: Operacao[]): Promise<Operacao[]> {
+  async getOperacoesWithAllDetails(administracoes: Operacao[]): Promise<Operacao[]> {
     const aprazamentos: Map<string, PreOperacao> = new Map();
 
-    for (const consumo of consumos) {
-      if (!aprazamentos.has(consumo.cdPreOperacaoAprazamento)) {
+    for (const administracao of administracoes) {
+      if (!aprazamentos.has(administracao.cdPreOperacaoAprazamento)) {
         let aprazamento: PreOperacao;
 
         try {
-          aprazamento = await this.getPreOperacaoById(consumo.cdPreOperacaoAprazamento);
+          aprazamento = await this.getPreOperacaoById(administracao.cdPreOperacaoAprazamento);
           aprazamento = await this.getPreOperacaoWithAllDetails(aprazamento);
         } catch(err) {
         }
 
-        aprazamentos.set(consumo.cdPreOperacaoAprazamento, aprazamento);
+        aprazamentos.set(administracao.cdPreOperacaoAprazamento, aprazamento);
       }
 
-      consumo.aprazamento = aprazamentos.get(consumo.cdPreOperacaoAprazamento);
+      administracao.aprazamento = aprazamentos.get(administracao.cdPreOperacaoAprazamento);
     }
 
-    return consumos;
+    return administracoes;
   }
 
   getHistorico(uuid: string): Promise<Operacao[]> {
     return this.http.get<Operacao[]>(`${this.apiUrl}/opConsumoRodelagemDevice/${uuid}`).toPromise();
   }
 
-  postOperacao(consumo: Operacao): Promise<Operacao> {
-    return Observable.of<Operacao>(consumo).delay(200).toPromise();
+  postOperacao(administracao: Operacao): Promise<Operacao> {
+    return Observable.of<Operacao>(administracao).delay(200).toPromise();
   }
 
-  async postOperacoes(consumos: Operacao[]): Promise<any[]> {
+  async postOperacoes(administracoes: Operacao[]): Promise<any[]> {
     const response: any[] = [];
 
-    for (const consumo of consumos) {
-      this.postOperacao(consumo)
-        .then((consumo: Operacao) => response.push(consumo))
+    for (const administracao of administracoes) {
+      this.postOperacao(administracao)
+        .then((administracao: Operacao) => response.push(administracao))
         .catch((err: any) => response.push(err));
     }
 

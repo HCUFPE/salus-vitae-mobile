@@ -64,7 +64,7 @@ export class DetalhesPacientePage {
     }*/
   }
 
-  salvarConsumos(consumos: any[]) {
+  salvarAdministracao(administracoes: any[]) {
     /*const consumidos = consumos.filter(c => c.isConsumido !== undefined);
 
     this.administracaoStorage.saveAll(consumidos).then(() => {
@@ -75,12 +75,13 @@ export class DetalhesPacientePage {
     });*/
   }
 
-  showToastConsumo(message: string, isSuccess: boolean) {
+  showToastAdministracao(message: string, isSuccess: boolean) {
     this.toastCtrl.create({
       message: message,
       duration: 1000,
       cssClass: isSuccess ? 'btn-confirm' : 'btn-cancel'
     }).present();
+    
     this.navCtrl.pop();
   }
 

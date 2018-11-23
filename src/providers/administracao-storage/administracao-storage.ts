@@ -45,9 +45,9 @@ export class AdministracaoStorageProvider {
   }
 
   async synchronize() {
-    let administrados: Operacao[] = await this.getAll();
+    let administracoes: Operacao[] = await this.getAll();
 
-    if (!administrados) {
+    if (!administracoes) {
       this.toastCtrl.create({
         duration: 3000,
         message: `Não há medicamentos administrados.`
@@ -58,7 +58,7 @@ export class AdministracaoStorageProvider {
 
     this.toastCtrl.create({
       duration: 3000,
-      message: `Sincronia iniciada: ${administrados.length}`
+      message: `Sincronia iniciada: ${administracoes.length}`
     }).present();
 
     /*return new Promise((resolve, reject) => {
