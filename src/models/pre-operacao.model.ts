@@ -5,7 +5,7 @@ import { ItemPrescricao } from "./item-prescricao.model";
 
 export interface PreOperacao {
     _id: string;
-    status: string;
+    status: boolean;
     cdProntuario: number;
     cdAtendimento: number;
     cdPrescricao: number;
@@ -16,6 +16,9 @@ export interface PreOperacao {
     cdTpItem: number;
     ordemItem: number;
     quantidade: number;
+    nmUsuario: string;
+    nmPaciente: string;
+    nmMedicamento: string;
 
     prontuario?: Prontuario;
     atendimento?: Atendimento;

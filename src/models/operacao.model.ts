@@ -12,6 +12,7 @@ export interface Operacao {
     deviceModel: string;
     devicePlatform: string;
     deviceVersion: string;
+    nmUsuario: string;
 
     aprazamento?: PreOperacao;
 }
