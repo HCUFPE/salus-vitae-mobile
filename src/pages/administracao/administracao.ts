@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, ToastController, LoadingController, Loading, Platform } from 'ionic-angular';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 
+import * as moment from 'moment';
+
 import { SalusVitaeApiProvider } from '../../providers/salusvitae-api/salusvitae-api';
 import { HCUFPEApiProvider } from '../../providers/hcufpe-api/hcufpe-api';
 import { Prontuario } from '../../models/prontuario.model';
@@ -45,7 +47,7 @@ export class AdministracaoPage {
 
             this.salusVitaeApi.getPreOperacoesByProntuario(prontuario.prontuario, prontuario.leito.atendimento)
               .then((aprazamentos: PreOperacao[]) => {
-                this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos.filter(a => a.status))
+                this.salusVitaeApi.getPreOperacoesWithAllDetails(this.aprazamentosFilter(aprazamentos))
                   .then((aprazamentos: PreOperacao[]) => {
                     aprazamentos = aprazamentos.sort((a: PreOperacao, b: PreOperacao) => {
                       if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
@@ -105,6 +107,31 @@ export class AdministracaoPage {
         dismissOnPageChange: true
       }).present();
     });
+  }
+
+  private aprazamentosFilter(aprazamentos: PreOperacao[]) {
+    const filtered: PreOperacao[] = [];
+    const dateNow = moment();
+    const dateLimitBefore = moment(dateNow).subtract(1, 'hour');
+    const dateLimitAfter = moment(dateNow).add(1, 'hour');
+
+    aprazamentos.filter(a => a.status)
+      .forEach(aprazamento => {
+        const foundIndex = filtered
+          .findIndex(a => a.cdProntuario === aprazamento.cdProntuario && a.cdAtendimento === aprazamento.cdAtendimento &&
+            a.cdPrescricao === aprazamento.cdPrescricao && a.cdTpItem === aprazamento.cdTpItem && a.cdItem === aprazamento.cdItem &&
+            a.ordemItem === aprazamento.ordemItem);
+
+        if (moment(aprazamento.horarioInicial).isBetween(dateLimitBefore, dateLimitAfter)) {
+          if (foundIndex < 0) {
+            filtered.push(aprazamento);
+          } else if (moment(aprazamento.horarioInicial).isBefore(moment(filtered[foundIndex].horarioInicial))) {
+            filtered[foundIndex] = aprazamento;
+          }
+        }
+      });
+
+    return filtered;
   }
 
 }
