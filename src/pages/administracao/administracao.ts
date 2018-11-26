@@ -45,7 +45,7 @@ export class AdministracaoPage {
 
             this.salusVitaeApi.getPreOperacoesByProntuario(prontuario.prontuario, prontuario.leito.atendimento)
               .then((aprazamentos: PreOperacao[]) => {
-                this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos)
+                this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos.filter(a => a.status))
                   .then((aprazamentos: PreOperacao[]) => {
                     aprazamentos = aprazamentos.sort((a: PreOperacao, b: PreOperacao) => {
                       if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;

@@ -25,7 +25,7 @@ export class AprazamentoPage {
     loading.present();
 
     this.salusVitaeApi.getPreOperacoes().then((aprazamentos: PreOperacao[]) => {
-      this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos.filter(a => a.status === 'P'))
+      this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos.filter(a => a.status))
         .then((aprazamentos: PreOperacao[]) => {
           this.aprazamentos = aprazamentos.sort((a: PreOperacao, b: PreOperacao) => {
             if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
