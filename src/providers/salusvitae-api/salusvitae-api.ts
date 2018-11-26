@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
 import { HCUFPEApiProvider } from '../hcufpe-api/hcufpe-api';
 import { PreOperacao } from '../../models/pre-operacao.model';
 import { Operacao } from '../../models/operacao.model';
@@ -74,8 +72,7 @@ export class SalusVitaeApiProvider {
         let atendimento: Atendimento;
 
         try {
-          atendimento = await this.hcUfpeApi.getAtendimentoByPrescricao(aprazamento.cdProntuario,
-            aprazamento.cdAtendimento, aprazamento.cdPrescricao);
+          atendimento = await this.hcUfpeApi.getAtendimento(aprazamento.cdProntuario, aprazamento.cdAtendimento);
         } catch(err) {
         }
 
@@ -134,16 +131,17 @@ export class SalusVitaeApiProvider {
   }
 
   postOperacao(administracao: Operacao): Promise<Operacao> {
-    return Observable.of<Operacao>(administracao).delay(200).toPromise();
+    const body: Operacao = Object.assign({}, administracao);
+    body.aprazamento = undefined;
+    
+    return this.http.post<Operacao>(`${this.apiUrl}/opConsumoRodelagem`, body).toPromise();
   }
 
   async postOperacoes(administracoes: Operacao[]): Promise<any[]> {
     const response: any[] = [];
 
     for (const administracao of administracoes) {
-      this.postOperacao(administracao)
-        .then((administracao: Operacao) => response.push(administracao))
-        .catch((err: any) => response.push(err));
+      response.push(await this.postOperacao(administracao));
     }
 
     return response;
