@@ -26,7 +26,7 @@ export class HistoricoPage {
 
     loading.present();
 
-    this.salusVitaeApi.getHistorico("123").then((administracoes: Operacao[]) => {
+    this.salusVitaeApi.getHistorico(this.device.uuid).then((administracoes: Operacao[]) => {
       this.salusVitaeApi.getOperacoesWithAllDetails(administracoes).then((administracoes: Operacao[]) => {
         this.administracoes = administracoes.sort((a: Operacao, b: Operacao) => {
           if (new Date(a.dtOperacao) > new Date(b.dtOperacao)) return -1;

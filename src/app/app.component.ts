@@ -38,9 +38,9 @@ export class MyApp {
                 topics: ['aprazamentos']
               },
               ios: {
-                  alert: 'true',
-                  badge: true,
-                  sound: 'false'
+                alert: 'true',
+                badge: true,
+                sound: 'false'
               }
             };
 
@@ -48,18 +48,18 @@ export class MyApp {
             pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
           }
         });
-    });
 
-    let isSync: boolean = false;
+      let isSync: boolean = false;
 
-    Observable.interval(30000).subscribe(() => {
-      if (this.isConnected() && !isSync) {
-        isSync = true;
+      Observable.interval(30000).subscribe(() => {
+        if (this.isConnected() && !isSync) {
+          isSync = true;
 
-        this.administracaoStorage.synchronize()
-          .then(() => isSync = false)
-          .catch(() => isSync = false);
-      }
+          this.administracaoStorage.synchronize()
+            .then(() => isSync = false)
+            .catch(() => isSync = false);
+        }
+      });
     });
   }
 
