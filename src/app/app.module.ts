@@ -15,6 +15,7 @@ import { MyApp } from './app.component';
 import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { AdministracaoPageModule } from '../pages/administracao/administracao.module';
 import { AprazamentoPageModule } from '../pages/aprazamento/aprazamento.module';
+import { DetalhesAdministracaoPageModule } from '../pages/detalhes-administracao/detalhes-administracao.module';
 import { DetalhesPacientePageModule } from '../pages/detalhes-paciente/detalhes-paciente.module';
 import { LoginPageModule } from '../pages/login/login.module';
 import { SalusVitaeApiProvider } from '../providers/salusvitae-api/salusvitae-api';
@@ -48,6 +49,7 @@ export function jwtOptionsFactory(usuarioStorageProvider) {
     TabsPageModule,
     AdministracaoPageModule,
     AprazamentoPageModule,
+    DetalhesAdministracaoPageModule,
     DetalhesPacientePageModule,
     LoginPageModule,
     JwtModule.forRoot({

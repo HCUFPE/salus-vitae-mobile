@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-buttons end>
+      <button [disabled]="!canCloseModal()" (click)="closeModal()" ion-button>
+        <span ion-text color="primary" showWhen="ios">Fechar</span>
+        <ion-icon name="close" hideWhen="ios"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Detalhes da Administração</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item text-wrap *ngFor="let result of results">
+      <div *ngIf="result.isLoading;else isNotLoading">
+        <ion-spinner></ion-spinner>
+        {{ result.operacao.aprazamento.itemPrescricao.descricaoItem }}
+      </div>
+      <ng-template #isNotLoading>
+        <ion-icon name="{{ result.isSuccess ? 'checkmark-circle' : 'warning' }}"></ion-icon>
+        {{ result.operacao.aprazamento.itemPrescricao.descricaoItem }}
+      </ng-template>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

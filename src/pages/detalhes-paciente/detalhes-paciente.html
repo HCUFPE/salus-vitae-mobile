@@ -23,7 +23,7 @@
     <div *ngSwitchCase="'aprazamentos'">
       <ion-list>
         <ion-item text-wrap *ngFor="let aprazamento of aprazamentos">
-          <ion-toggle [(ngModel)]="aprazamento.checked" (ionChange)="toggleSwitch(aprazamento.checked)"></ion-toggle>
+          <ion-toggle [(ngModel)]="aprazamento.checked"></ion-toggle>
           <ion-label>
             <p>{{ aprazamento.aprazamento.itemPrescricao ?
               aprazamento.aprazamento?.itemPrescricao?.descricaoItem + ' - ' +
@@ -43,7 +43,7 @@
     </div>
   </div>
   <ion-fab right bottom>
-    <button ion-fab color="secondary" (click)="confirm()" [disabled]="getAprazamentosChecked().length === 0">
+    <button ion-fab color="secondary" (click)="confirm()" [disabled]="getAprazamentosChecked().length === 0 || isModalRunning">
       <ion-icon name="checkmark"></ion-icon>
     </button>
   </ion-fab>
