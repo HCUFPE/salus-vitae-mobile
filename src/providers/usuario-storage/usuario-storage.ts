@@ -41,7 +41,7 @@ export class UsuarioStorageProvider {
     return '';
   }
 
-  async remove(): Promise<any> {
+  async clear(): Promise<any> {
     return await this.storage.remove(this.key);
   }
 

@@ -19,7 +19,7 @@ export class TabsPage {
   }
 
   logout() {
-    this.usuarioStorage.remove().then(() => this.navCtrl.setRoot(LoginPage));
+    this.usuarioStorage.clear().then(() => this.navCtrl.setRoot(LoginPage));
   }
 
 }

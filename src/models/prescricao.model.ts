@@ -7,5 +7,6 @@ export interface Prescricao {
     statusPrescricao: string;
     codigoProfissional: number;
     profissional: string;
+    observacao?: string;
     Itens: ItemPrescricao[];
 }
