@@ -1,9 +1,9 @@
 <ion-content class="login-content" padding>
-  
+
   <ion-row class="logo-row">
     <ion-col></ion-col>
     <ion-col width-67>
-      <img class="rounded-circle" src="../../assets/img/logo.png"/>
+      <img class="rounded-circle" src="../../assets/img/logo.png" />
     </ion-col>
     <ion-col></ion-col>
   </ion-row>
@@ -15,7 +15,7 @@
           <ion-list inset>
             <ion-item>
               <ion-input #username="ngModel" id="username" name="username" type="text" placeholder="Usuário"
-               autocapitalize="off" [(ngModel)]="credentials.username" required></ion-input>
+                autocapitalize="off" [(ngModel)]="credentials.username" required></ion-input>
             </ion-item>
             <span *ngIf="username.touched && username?.errors?.required" class="login-error">
               Usuário é obrigatório
@@ -23,9 +23,9 @@
             <br>
             <ion-item>
               <ion-input #password="ngModel" id="password" name="password" type="password" placeholder="*****"
-                [(ngModel)]="credentials.password" required minlength="8"></ion-input>
+                clearOnEdit="false" [(ngModel)]="credentials.password" required minlength="8"></ion-input>
             </ion-item>
-            <span *ngIf="username.touched && username?.errors?.required" class="login-error">
+            <span *ngIf="password.touched && password?.errors?.required" class="login-error">
               Senha é obrigatória
             </span>
             <span *ngIf="password.touched && password?.errors?.minlength" class="login-error">

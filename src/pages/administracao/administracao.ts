@@ -47,25 +47,38 @@ export class AdministracaoPage {
 
             this.salusVitaeApi.getPreOperacoesByProntuario(prontuario.prontuario, prontuario.leito.atendimento)
               .then((aprazamentos: PreOperacao[]) => {
-                this.salusVitaeApi.getPreOperacoesWithAllDetails(this.aprazamentosFilter(aprazamentos))
-                  .then((aprazamentos: PreOperacao[]) => {
-                    aprazamentos = aprazamentos.sort((a: PreOperacao, b: PreOperacao) => {
-                      if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
-                      if (new Date(a.horarioInicial) > new Date(b.horarioInicial)) return 1;
-                      return 0;
+                aprazamentos = this.aprazamentosFilter(aprazamentos);
+
+                if (aprazamentos && aprazamentos.length > 0) {
+                  this.salusVitaeApi.getPreOperacoesWithAllDetails(aprazamentos)
+                    .then((aprazamentos: PreOperacao[]) => {
+                      aprazamentos = aprazamentos.sort((a: PreOperacao, b: PreOperacao) => {
+                        if (new Date(a.horarioInicial) < new Date(b.horarioInicial)) return -1;
+                        if (new Date(a.horarioInicial) > new Date(b.horarioInicial)) return 1;
+                        return 0;
+                      });
+
+                      this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, aprazamentos: aprazamentos });
+                    }).catch(() => {
+                      this.toastCtrl.create({
+                        message: 'Erro: Não foi possível obter os aprazamentos.',
+                        showCloseButton: true,
+                        closeButtonText: 'Fechar',
+                        dismissOnPageChange: true
+                      }).present();
+
+                      loading.dismiss();
                     });
+                } else {
+                  this.toastCtrl.create({
+                    message: 'Erro: O paciente não possui aprazamentos.',
+                    showCloseButton: true,
+                    closeButtonText: 'Fechar',
+                    dismissOnPageChange: true
+                  }).present();
 
-                    this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, aprazamentos: aprazamentos });
-                  }).catch(() => {
-                    this.toastCtrl.create({
-                      message: 'Erro: Não foi possível obter os aprazamentos.',
-                      showCloseButton: true,
-                      closeButtonText: 'Fechar',
-                      dismissOnPageChange: true
-                    }).present();
-
-                    loading.dismiss();
-                  });
+                  loading.dismiss();
+                }
               }).catch(() => {
                 this.toastCtrl.create({
                   message: 'Erro: Não foi possível obter os aprazamentos.',

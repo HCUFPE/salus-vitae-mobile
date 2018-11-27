@@ -33,6 +33,8 @@
               aprazamento.aprazamento.itemPrescricao.administracao + ' - ' +
               aprazamento.aprazamento.itemPrescricao.frequencia + 'h/' +
               aprazamento.aprazamento.itemPrescricao.frequencia + 'h' : 'Medicamento não identificado'}}</p>
+            <p><strong>Prescrição:</strong> {{ aprazamento?.aprazamento?.cdPrescricao ?
+              aprazamento.aprazamento.cdPrescricao : 'Não identificado' }}</p>
             <p><strong>Horário:</strong> {{ aprazamento?.aprazamento?.horarioInicial ?
               (aprazamento.aprazamento.horarioInicial | date:'dd/MM/yyyy HH:mm') : 'Não identificado' }}</p>
           </ion-label>
@@ -40,7 +42,8 @@
       </ion-list>
     </div>
     <div *ngSwitchCase="'detalhes'">
-      <p><strong>Data de nascimento:</strong> {{ prontuario?.dataNascimento ? prontuario.dataNascimento : 'Não identificado' }}</p>
+      <p><strong>Data de nascimento:</strong> {{ prontuario?.dataNascimento ?
+        prontuario.dataNascimento : 'Não identificado' }}</p>
       <p><strong>Sexo:</strong> {{ prontuario?.sexo ? prontuario.sexo : 'Não identificado' }}</p>
       <p><strong>Nome da Mãe:</strong> {{ prontuario?.nomeMae ? prontuario.nomeMae : 'Não identificado' }}</p>
       <p><strong>Prontuário:</strong> {{ prontuario?.prontuario ? prontuario.prontuario : 'Não identificado' }}</p>
