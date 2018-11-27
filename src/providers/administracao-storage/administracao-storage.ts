@@ -14,11 +14,15 @@ export class AdministracaoStorageProvider {
     private toastCtrl: ToastController) {
   }
 
-  async save(administracao: Operacao) {
+  async save(administracao: Operacao): Promise<any> {
     let administracoes: Operacao[] = await this.getAll();
+    administracao = Object.assign({}, administracao);
+    administracao.aprazamento = undefined;
 
     if (administracoes) {
-      administracoes.push(administracao);
+      if (!administracoes.map(a => a.cdPreOperacaoAprazamento).includes(administracao.cdPreOperacaoAprazamento)) {
+        administracoes.push(administracao);
+      }
     } else {
       administracoes = [administracao];
     }
@@ -26,46 +30,47 @@ export class AdministracaoStorageProvider {
     return await this.storage.set(this.key, administracoes);
   }
 
-  async saveAll(administracoes: Operacao[]) {
-    let administracoesSaved: Operacao[] = await this.getAll();
 
-    if (administracoesSaved) {
-      administracoesSaved.push(...administracoes);
-    } else if (administracoes) {
-      administracoesSaved = administracoes;
-    } else {
-      administracoesSaved = [];
-    }
-
-    return await this.storage.set(this.key, administracoesSaved);
-  }
- 
-  async getAll() {
+  async getAll(): Promise<Operacao[]> {
     return await this.storage.get(this.key);
   }
 
-  async synchronize() {
+  async remove(administracao: Operacao): Promise<any> {
     let administracoes: Operacao[] = await this.getAll();
 
-    if (!administracoes) {
-      this.toastCtrl.create({
+    if (administracoes) {
+      administracoes.splice(administracoes.findIndex(a => a.cdPreOperacaoAprazamento === administracao.cdPreOperacaoAprazamento), 1);
+    }
+
+    return await this.storage.set(this.key, administracoes);
+  }
+
+  async synchronize(): Promise<any> {
+    let administracoes: Operacao[] = await this.getAll();
+
+    if (!administracoes || administracoes.length === 0) {
+      /*this.toastCtrl.create({
         duration: 3000,
         message: `Não há medicamentos administrados.`
-      }).present();
+      }).present();*/
 
       return Promise.reject('Não há medicamentos administrados.');
     }
 
-    this.toastCtrl.create({
+    /*this.toastCtrl.create({
       duration: 3000,
       message: `Sincronia iniciada: ${administracoes.length}`
-    }).present();
+    }).present();*/
 
-    /*return new Promise((resolve, reject) => {
-      this.salusVitaeApi.postConsumos(administrados).subscribe(() => {
-        this.clear().then(() => resolve(administrados));
-      }, (error) => reject(error));
-    });*/
+    let results: any[] = await this.salusVitaeApi.postOperacoes(administracoes);
+
+    for (const result of results) {
+      if (result._id !== undefined) {
+        await this.remove(result);
+      }
+    }
+
+    return results;
   }
 
 }

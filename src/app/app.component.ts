@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Network } from '@ionic-native/network';
-import { Push, PushOptions, PushObject } from '@ionic-native/push';
+import { Push, PushOptions } from '@ionic-native/push';
 
 import { Observable } from 'rxjs';
 
@@ -14,6 +14,8 @@ import { AdministracaoStorageProvider } from '../providers/administracao-storage
   templateUrl: 'app.html'
 })
 export class MyApp {
+
+  private isSync: boolean = false;
   rootPage: any = LoginPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private network: Network,
@@ -34,39 +36,45 @@ export class MyApp {
           if (permission.isEnabled) {
             const options: PushOptions = {
               android: {
+                sound: true,
+                vibrate: true,
                 forceShow: true,
                 topics: ['aprazamentos']
               },
               ios: {
-                alert: 'true',
+                alert: true,
                 badge: true,
-                sound: 'false'
+                sound: true,
+                topics: ['aprazamentos']
               }
             };
 
-            const pushObject: PushObject = this.push.init(options);
-            pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+            this.push.init(options);
           }
         });
 
-      let isSync: boolean = false;
+      this.synchronize();
 
       Observable.interval(30000).subscribe(() => {
-        if (this.isConnected() && !isSync) {
-          isSync = true;
-
-          this.administracaoStorage.synchronize()
-            .then(() => isSync = false)
-            .catch(() => isSync = false);
-        }
+        this.synchronize();
       });
     });
   }
 
-  isConnected(): boolean {
+  private isConnected(): boolean {
     let connType: string = this.network.type;
 
     return connType && connType !== 'unknown' && connType !== 'none';
+  }
+
+  private synchronize(): void {
+    if (this.isConnected() && !this.isSync) {
+      this.isSync = true;
+
+      this.administracaoStorage.synchronize()
+        .then(() => this.isSync = false)
+        .catch(() => this.isSync = false);
+    }
   }
 
 }
