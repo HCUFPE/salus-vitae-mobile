@@ -10,16 +10,19 @@
 
   <ion-list>
     <ion-item text-wrap *ngFor="let aprazamento of aprazamentos">
-      <h2>{{ aprazamento.prontuario ?
-        aprazamento?.prontuario?.nomeDoPaciente : 'Paciente não identificado' }}</h2>
-      <p><strong>Medicamento:</strong> {{ aprazamento.itemPrescricao ?
-        (aprazamento?.itemPrescricao?.descricaoItem + ' - ' +
-        aprazamento?.itemPrescricao?.administracao + ' - ' +
-        aprazamento?.itemPrescricao?.frequencia + 'h/' +
-        aprazamento?.itemPrescricao?.frequencia + 'h') : 'Não identificado' }}</p>
-      <p><strong>Leito:</strong> {{ aprazamento.prontuario && aprazamento.prontuario.leito ?
-        aprazamento?.prontuario?.leito?.leito : 'Não identificado' }}</p>
-      <p><strong>Horário:</strong> {{ aprazamento.horarioInicial | date:'dd/MM/yyyy HH:mm' }}</p>
+      <h2>{{ aprazamento?.prontuario?.nomeDoPaciente ?
+        aprazamento.prontuario.nomeDoPaciente : 'Paciente não identificado' }}</h2>
+      <p><strong>Medicamento:</strong> {{ aprazamento?.itemPrescricao?.descricaoItem &&
+        aprazamento?.itemPrescricao?.administracao &&
+        aprazamento?.itemPrescricao?.frequencia ?
+        (aprazamento.itemPrescricao.descricaoItem + ' - ' +
+        aprazamento.itemPrescricao.administracao + ' - ' +
+        aprazamento.itemPrescricao.frequencia + 'h/' +
+        aprazamento.itemPrescricao.frequencia + 'h') : 'Não identificado' }}</p>
+      <p><strong>Leito:</strong> {{ aprazamento?.prontuario?.leito?.leito ?
+        aprazamento.prontuario.leito.leito : 'Não identificado' }}</p>
+      <p><strong>Horário:</strong> {{ aprazamento?.horarioInicial ?
+        (aprazamento.horarioInicial | date:'dd/MM/yyyy HH:mm') : 'Não identificado' }}</p>
     </ion-item>
   </ion-list>
 

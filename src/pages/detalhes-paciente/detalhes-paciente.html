@@ -8,9 +8,10 @@
 
 <ion-content padding>
 
-  <h3 text-center>{{ prontuario.nomeDoPaciente }}</h3>
-  <h5 text-center>{{ prontuario?.leito?.ala.Ala }}</h5>
-  <h5 text-center>Leito {{ prontuario?.leito.leito }}</h5>
+  <h3 text-center>{{ prontuario?.nomeDoPaciente ? prontuario.nomeDoPaciente : 'Paciente não identificado' }}</h3>
+  <h5 text-center>{{ prontuario?.leito?.ala?.Ala ?
+    prontuario.leito.ala.Ala : 'Ala não identificada' }}</h5>
+  <h5 text-center>Leito {{ prontuario?.leito?.leito ? prontuario.leito.leito : 'não identificado' }}</h5>
   <ion-segment id="segment" color="primary" [(ngModel)]="dados">
     <ion-segment-button value="aprazamentos">
       Aprazamentos
@@ -25,21 +26,24 @@
         <ion-item text-wrap *ngFor="let aprazamento of aprazamentos">
           <ion-toggle [(ngModel)]="aprazamento.checked"></ion-toggle>
           <ion-label>
-            <p>{{ aprazamento.aprazamento.itemPrescricao ?
-              aprazamento.aprazamento?.itemPrescricao?.descricaoItem + ' - ' +
-              aprazamento.aprazamento?.itemPrescricao?.administracao + ' - ' +
-              aprazamento.aprazamento?.itemPrescricao?.frequencia + 'h/' +
-              aprazamento.aprazamento?.itemPrescricao?.frequencia + 'h' : 'Medicamento não identificado'}}</p>
-            <p><strong>Horário:</strong> {{ aprazamento.aprazamento?.horarioInicial | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p>{{ aprazamento?.aprazamento?.itemPrescricao?.descricaoItem &&
+              aprazamento?.aprazamento?.itemPrescricao?.administracao &&
+              aprazamento?.aprazamento?.itemPrescricao?.frequencia ?
+              aprazamento.aprazamento.itemPrescricao.descricaoItem + ' - ' +
+              aprazamento.aprazamento.itemPrescricao.administracao + ' - ' +
+              aprazamento.aprazamento.itemPrescricao.frequencia + 'h/' +
+              aprazamento.aprazamento.itemPrescricao.frequencia + 'h' : 'Medicamento não identificado'}}</p>
+            <p><strong>Horário:</strong> {{ aprazamento?.aprazamento?.horarioInicial ?
+              (aprazamento.aprazamento.horarioInicial | date:'dd/MM/yyyy HH:mm') : 'Não identificado' }}</p>
           </ion-label>
         </ion-item>
       </ion-list>
     </div>
     <div *ngSwitchCase="'detalhes'">
-      <p><strong>Data de nascimento:</strong> {{ prontuario.dataNascimento }}</p>
-      <p><strong>Sexo:</strong> {{ prontuario.sexo }}</p>
-      <p><strong>Nome da Mãe:</strong> {{ prontuario.nomeMae }}</p>
-      <p><strong>Prontuário:</strong> {{ prontuario.prontuario }}</p>
+      <p><strong>Data de nascimento:</strong> {{ prontuario?.dataNascimento ? prontuario.dataNascimento : 'Não identificado' }}</p>
+      <p><strong>Sexo:</strong> {{ prontuario?.sexo ? prontuario.sexo : 'Não identificado' }}</p>
+      <p><strong>Nome da Mãe:</strong> {{ prontuario?.nomeMae ? prontuario.nomeMae : 'Não identificado' }}</p>
+      <p><strong>Prontuário:</strong> {{ prontuario?.prontuario ? prontuario.prontuario : 'Não identificado' }}</p>
     </div>
   </div>
   <ion-fab right bottom>

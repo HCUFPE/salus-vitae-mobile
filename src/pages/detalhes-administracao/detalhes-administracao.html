@@ -16,13 +16,15 @@
 
   <ion-list>
     <ion-item text-wrap *ngFor="let result of results">
-      <div *ngIf="result.isLoading;else isNotLoading">
+      <div *ngIf="result?.isLoading;else isNotLoading">
         <ion-spinner></ion-spinner>
-        {{ result.operacao.aprazamento.itemPrescricao.descricaoItem }}
+        {{ result?.operacao?.aprazamento?.itemPrescricao?.descricaoItem ?
+        result.operacao.aprazamento.itemPrescricao.descricaoItem : 'Medicamento não identificado' }}
       </div>
       <ng-template #isNotLoading>
-        <ion-icon name="{{ result.isSuccess ? 'checkmark-circle' : 'warning' }}"></ion-icon>
-        {{ result.operacao.aprazamento.itemPrescricao.descricaoItem }}
+        <ion-icon name="{{ result?.isSuccess ? 'checkmark-circle' : 'warning' }}"></ion-icon>
+        {{ result?.operacao?.aprazamento?.itemPrescricao?.descricaoItem ?
+        result.operacao.aprazamento.itemPrescricao.descricaoItem : 'Medicamento não identificado' }}
       </ng-template>
     </ion-item>
   </ion-list>
