@@ -14,27 +14,22 @@ import { UsuarioStorageProvider } from '../../providers/usuario-storage/usuario-
 export class LoginPage {
 
   credentials: Usuario = { username: '', password: '' };
-  lastUsername: string = '';
+  isLoading: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController,
     private hcUfpeApi: HCUFPEApiProvider, private usuarioStorage: UsuarioStorageProvider) {
   }
 
   login() {
+    this.isLoading = true;
+
     this.hcUfpeApi.login(this.credentials)
       .then((usuario: Usuario) => {
         this.usuarioStorage.save(usuario)
           .then(() => {
-            this.usuarioStorage.get()
-            .then((usuario: Usuario) => console.log(usuario))
-            .catch((err) => console.log(err));
-            this.usuarioStorage.getAccessToken()
-            .then((token: string) => console.log(token))
-            .catch((err) => console.log(err));
-            this.usuarioStorage.getUsername()
-            .then((username: string) => console.log(username))
-            .catch((err) => console.log(err));
             this.navCtrl.setRoot(TabsPage);
+
+            this.isLoading = false;
           })
           .catch(() => {
             this.toastCtrl.create({
@@ -42,6 +37,8 @@ export class LoginPage {
               duration: 3000,
               dismissOnPageChange: true
             }).present();
+
+            this.isLoading = false;
           });
       })
       .catch(() => {
@@ -50,10 +47,9 @@ export class LoginPage {
           duration: 3000,
           dismissOnPageChange: true
         }).present();
+
+        this.isLoading = false;
       })
-    if (this.credentials.username.toLocaleLowerCase() === 'enfermeira' && this.credentials.password === '123456') {
-      this.navCtrl.setRoot(TabsPage);
-    }
   }
 
 }

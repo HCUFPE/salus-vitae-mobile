@@ -36,7 +36,7 @@
       </ion-row>
       <ion-row>
         <ion-col class="login-col">
-          <button ion-button class="submit-btn" full round type="submit" [disabled]="!loginForm.form.valid">Entrar</button>
+          <button ion-button class="submit-btn" full round type="submit" [disabled]="!loginForm.form.valid || isLoading">Entrar</button>
         </ion-col>
       </ion-row>
     </form>
