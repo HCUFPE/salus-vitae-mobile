@@ -141,7 +141,11 @@ export class SalusVitaeApiProvider {
     const response: any[] = [];
 
     for (const administracao of administracoes) {
-      response.push(await this.postOperacao(administracao));
+      try {
+        response.push(await this.postOperacao(administracao));
+      } catch (error) {
+        response.push(error);
+      }
     }
 
     return response;
