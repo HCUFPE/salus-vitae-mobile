@@ -45,7 +45,7 @@ export class SalusVitaeApiProvider {
     if (prescricao !== undefined) {
       aprazamento.itemPrescricao = prescricao.Itens.find(i => i.ordemItem === aprazamento.ordemItem &&
         i.codigoTipoItem === aprazamento.cdTpItem &&
-        i.codigoItem == aprazamento.cdItem);
+        i.codigoItem === aprazamento.cdItem);
     }
 
     return aprazamento;

@@ -61,9 +61,34 @@ export class DetalhesPacientePage {
           { enableBackdropDismiss: false }
         );
         this.isModalRunning = true;
-        
+
         modal.present();
-        modal.onDidDismiss(() => this.navCtrl.pop());
+        modal.onDidDismiss((results: { operacao: Operacao, isLoading: boolean, isSuccess: boolean }[]) => {
+          this.navCtrl.pop().then(() => {
+            if (results.every(r => r.isSuccess)) {
+              this.toastCtrl.create({
+                message: 'Administrações realizadas com sucesso',
+                duration: 3000,
+                cssClass: 'btn-confirm',
+                dismissOnPageChange: true
+              }).present();
+            } else if (results.some(r => r.isSuccess)) {
+              this.toastCtrl.create({
+                message: 'Algumas administrações foram salvas para uma futura sincronia',
+                duration: 3000,
+                cssClass: 'btn-cancel',
+                dismissOnPageChange: true
+              }).present();
+            } else {
+              this.toastCtrl.create({
+                message: 'Administrações salvas para uma futura sincronia',
+                duration: 3000,
+                cssClass: 'btn-cancel',
+                dismissOnPageChange: true
+              }).present();
+            }
+          });
+        });
       });
   }
 

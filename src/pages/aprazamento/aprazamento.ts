@@ -41,10 +41,9 @@ export class AprazamentoPage {
 
   showErrorToast(loading: Loading) {
     this.toastCtrl.create({
-      message: 'Erro: Não foi possível obter os aprazamentos.',
+      message: 'Não foi possível obter os aprazamentos',
+      duration: 3000,
       cssClass: 'btn-cancel',
-      showCloseButton: true,
-      closeButtonText: 'Fechar',
       dismissOnPageChange: true
     }).present();
 

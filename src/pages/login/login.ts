@@ -27,14 +27,15 @@ export class LoginPage {
       .then((usuario: Usuario) => {
         this.usuarioStorage.save(usuario)
           .then(() => {
-            this.navCtrl.setRoot(TabsPage);
-
             this.isLoading = false;
+
+            this.navCtrl.setRoot(TabsPage);
           })
           .catch(() => {
             this.toastCtrl.create({
-              message: 'Erro ao realizar login',
+              message: 'Erro ao realizar o login',
               duration: 3000,
+              cssClass: 'btn-cancel',
               dismissOnPageChange: true
             }).present();
 
@@ -45,6 +46,7 @@ export class LoginPage {
         this.toastCtrl.create({
           message: 'Usuário e/ou senha incorreto(s)',
           duration: 3000,
+          cssClass: 'btn-cancel',
           dismissOnPageChange: true
         }).present();
 

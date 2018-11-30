@@ -61,9 +61,9 @@ export class AdministracaoPage {
                       this.navCtrl.push(DetalhesPacientePage, { prontuario: prontuario, aprazamentos: aprazamentos });
                     }).catch(() => {
                       this.toastCtrl.create({
-                        message: 'Erro: Não foi possível obter os aprazamentos.',
-                        showCloseButton: true,
-                        closeButtonText: 'Fechar',
+                        message: 'Não foi possível obter os aprazamentos',
+                        duration: 3000,
+                        cssClass: 'btn-cancel',
                         dismissOnPageChange: true
                       }).present();
 
@@ -71,9 +71,9 @@ export class AdministracaoPage {
                     });
                 } else {
                   this.toastCtrl.create({
-                    message: 'Erro: O paciente não possui aprazamentos.',
-                    showCloseButton: true,
-                    closeButtonText: 'Fechar',
+                    message: 'O paciente não possui aprazamentos',
+                    duration: 3000,
+                    cssClass: 'btn-cancel',
                     dismissOnPageChange: true
                   }).present();
 
@@ -81,9 +81,9 @@ export class AdministracaoPage {
                 }
               }).catch(() => {
                 this.toastCtrl.create({
-                  message: 'Erro: Não foi possível obter os aprazamentos.',
-                  showCloseButton: true,
-                  closeButtonText: 'Fechar',
+                  message: 'Não foi possível obter os aprazamentos',
+                  duration: 3000,
+                  cssClass: 'btn-cancel',
                   dismissOnPageChange: true
                 }).present();
 
@@ -91,9 +91,9 @@ export class AdministracaoPage {
               })
           }).catch(() => {
             this.toastCtrl.create({
-              message: 'Erro: Não foi possível obter o leito.',
-              showCloseButton: true,
-              closeButtonText: 'Fechar',
+              message: 'Não foi possível obter o leito',
+              duration: 3000,
+              cssClass: 'btn-cancel',
               dismissOnPageChange: true
             }).present();
 
@@ -101,9 +101,9 @@ export class AdministracaoPage {
           });
         }).catch(() => {
           this.toastCtrl.create({
-            message: 'Erro: Não foi possível obter o prontuário.',
-            showCloseButton: true,
-            closeButtonText: 'Fechar',
+            message: 'Não foi possível obter o prontuário',
+            duration: 3000,
+            cssClass: 'btn-cancel',
             dismissOnPageChange: true
           }).present();
 
@@ -114,9 +114,9 @@ export class AdministracaoPage {
       }
     }).catch(err => {
       this.toastCtrl.create({
-        message: 'Erro: ' + err,
-        showCloseButton: true,
-        closeButtonText: 'Fechar',
+        message: 'Não foi possível realizar a leitura da pulseira',
+        duration: 3000,
+        cssClass: 'btn-cancel',
         dismissOnPageChange: true
       }).present();
     });

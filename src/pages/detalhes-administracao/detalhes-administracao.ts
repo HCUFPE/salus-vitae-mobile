@@ -60,7 +60,7 @@ export class DetalhesAdministracaoPage {
   }
 
   closeModal() {
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss(this.results);
   }
 
 }
